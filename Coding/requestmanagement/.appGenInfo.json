@@ -1,0 +1,24 @@
+{
+  "generationParameters": {
+    "generationDate": "Tue Jan 27 2026 17:24:32 GMT+0100 (Mitteleuropäische Normalzeit)",
+    "generatorPlatform": "Visual Studio Code",
+    "serviceType": "SAP System (ABAP On-Premise)",
+    "metadataFilename": "",
+    "serviceUrl": "https://s4dev.mibs-ag.de:44301/sap/opu/odata4/sap/zmvd_ui_req_requests/srvd/sap/zmvd_ui_req_requests/0001/",
+    "appName": "requestmanagement",
+    "appTitle": "Request Management",
+    "appDescription": "An SAP Fiori application.",
+    "appNamespace": "",
+    "ui5Theme": "sap_horizon",
+    "ui5Version": "1.136.12",
+    "enableCodeAssist": false,
+    "enableEslint": false,
+    "enableTypeScript": false,
+    "showMockDataInfo": true,
+    "generatorVersion": "1.18.3",
+    "template": "Basic V4",
+    "generatorName": "SAP Fiori Application Generator",
+    "entityRelatedConfig": [],
+    "launchText": "To launch the generated application, run the following from the generated application root folder:\n\n```\n    npm start\n```"
+  }
+}
