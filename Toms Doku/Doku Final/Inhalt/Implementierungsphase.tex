@@ -1,0 +1,43 @@
+\section{Implementierungsphase}
+\label{sec:Implementierungsphase}
+
+Das Projekt wurde konsequent gemäß den im Pflichtenheft festgelegten Vorgaben umgesetzt. Die Backend-Entwicklung erfolgte in der Eclipse IDE\footnote{Open-Source-Entwicklungsumgebung, u.a. für die Entwicklung auf SAP-Systemen}, während das Frontend in Visual Studio Code\footnote{Open-Source-Code-Editor} realisiert wurde. Zur Versionskontrolle der Fiori-App (Frontend) wurde GitHub\footnote{ Onlinedienst Versionsverwaltung von Softwareprojekte} eingesetzt. Die Entwicklung findet auf dem Test-System der MIBS AG statt und wird nach Abschluss auf das Live-System übertragen.
+
+\subsection{Implementierung - Backend}
+\label{sec:Implementierung - Backend}
+
+%Die Entwicklung wurde mit dem Entwerfen der CDS Views begonnen. Hierzu wurden, wie im View-Modell beschrieben, je eine View für den Mitarbeiter und die Abwesenheiten angelegt. Der Mitarbeiterview besteht aus einem \Code{SELECT} auf eine bestehende Mitarbeitersicht und einer \Code{Annotation} zu Abwesenheiten View. 
+% TODO: Viewmodell verlinken
+% TODO: Annotation Fußnote?
+
+%Die Abwesenheiten ergeben sich aus einem \Code{UNION} von drei \Code{SELECT}, welche die Urlaubstage, besondere Tage und Krankheitstage selektieren. Der \Code{SELECT} der Krankheitstage wurde dabei über eine Tabellenfunktion\footnote{TODO} ermöglicht, da CDS Views nicht die Möglichkeit bieten, auf den Zeilenindex zuzugreifen. Diese ermöglichen es, komplexere SQL Skripte zu integrieren. Ein Auszug der Tabellenfunktion wird im Anhang „Codeauszug 3“ gezeigt.
+%Funktionen, die eine Tabelle als Rückgabewert liefern und komplexe Datenmanipulationen ermöglichen
+
+Die Entwicklung hat zunächst mit der Erstellung der CDS-Views begonnen. Gemäß dem im View-Modell definierten Aufbau wurde jeweils eine View für Mitarbeiter und für Abwesenheiten angelegt. Die Mitarbeiterview basiert auf einem \Code{SELECT}-Statement, das auf eine bestehende Mitarbeitersicht zugreift und enthält eine \Code{Association} für die Abwesenheiten-View.
+
+Die Abwesenheiten-View setzt sich  aus einer \Code{UNION} von drei \Code{SELECT}-Abfragen zusammen, die Urlaubstage, besondere Tage und Krankheitstage abbilden. Der Zugriff auf die Krankheitstage erfolgt mithilfe einer Tabellenfunktion, da CDS-Views keinen direkten Zugriff auf den Zeilenindex ermöglichen, welche für die Implementierung benötigt werden. Tabellenfunktionen erlauben die Integration komplexerer SQL-Skripte. Ein Ausschnitt dieser Klasse zur Tabellenfunktion ist im \Anhang{app:Klasse zur Tabellenfunktion} enthalten.
+
+Zur Verwaltung der Zugriffsrechte wurde ein Access-Control auf die Views angewendet. Dieser wurde gemäß den Vorgaben in \autoref{sec:Zugriffskontrolle} definiert. Teamleitern wird hierbei ein eingeschränkter Zugriff gewährt, während sowohl dem Vorstand als auch dem Backoffice vollständiger Zugriff auf alle Mitarbeiterdaten ermöglicht wird.
+
+Für die Veröffentlichung der Daten ist zunächst eine Service-Definition erstellt worden, in der die Entitäten des Services festgelegt sind. Darauf aufbauend wurde das Service-Binding konfiguriert, um den OData-Service sowie dessen Eigenschaften zu definieren. Der Service ist als OData V4 implementiert worden.
+%TODO bessere formulierung version 4?
+    
+\subsection{Implementierung - Frontend}
+\label{sec:Implementierung - Frontend}
+
+Zunächst wurde mithilfe der SAP Fiori Tools Erweiterung für Visual Studio Code das Grundgerüst der Anwendung generiert. Dieses diente als Basis für die strukturierte Entwicklung gemäß den SAP Fiori Richtlinien.
+Im nächsten Schritt wurde der OData-Service eingebunden, um die benötigten Daten aus dem Backend bereitzustellen. Hierzu wurde das JSON-Manifest um die notwendigen Informationen zum OData-Service erweitert. Zudem ist die i18n-Dateien, welche die Übersetzungen enthalten, im Manifest verlinkt worden, um die Internationalisierung sicherzustellen.
+
+Anschließend wurde eine XML-View erstellt, die das Haupt-UI-Element der Anwendung definiert. In dieser View wurden die wesentlichen Module, wie beispielsweise der PlanningCalendar, eingebunden. Der PlanningCalendar dient zur Visualisierung der Abwesenheiten der Mitarbeiter. Ergänzend wurde eine Toolbar mit einer Suchfunktion implementiert, die eine gezielte Filterung der angezeigten Mitarbeiter ermöglicht.
+
+Die Logik für die Mitarbeiterfilterung ist in der Controller-Datei der View realisiert worden. Dabei wurde ein Filter direkt auf das Binding\footnote{dynamische Anbindung eines Datenmodells an eine UI5-Komponente} des Kalenders angewendet, um die Kalenderansicht dynamisch auf die gesuchten Mitarbeiter zu beschränken.
+Die im PlanningCalendar angezeigten Daten wurden über den OData-Service als Appointments hinterlegt. Um eine intuitive Darstellung sicherzustellen, wurden Icons und Farben der Termine mithilfe von Formatter-Funktionen dynamisch bestimmt. Diese Funktionen ist in einer separaten JavaScript-Datei definiert worden, um die Wartbarkeit und Wiederverwendbarkeit des Codes zu gewährleisten.
+
+%    • Lazy Loading / Preloading?
+%    • UI5 yaml -> serveranbingung
+%    • Pakete
+%    • Nodejs zum testen?
+
+\subsection{Testen der Anwendung}
+\label{sec:Testen der Anwendung}
+Bevor die Implementierungsphase beendet werden konnte, musste die Anwendung ausführlich getestet werden. Hierfür wurde die vorab erstellte Textmatrix verwendet. Alle Tests konnten erfolgreich angeschlossen werden, womit diese Phase beendet wurde.

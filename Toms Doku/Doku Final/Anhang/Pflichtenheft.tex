@@ -1,0 +1,39 @@
+\textbf{Integration der Abwesenheitsdaten in den MIBS VirtualDesk:}
+\begin{itemize}
+    \item Die Anzeige der Abwesenheitsdaten wird als eigenständige App innerhalb des SAP Fiori Launchpads realisiert. Dafür wird eine SAPUI5-Freestyle-App erstellt, die im bestehenden MIBS VirtualDesk integriert wird.
+    \item Der Zugriff auf die Daten erfolgt über einen OData V4-Service, der die Daten im JSON-Format bereitstellt und eine sichere, performante Kommunikation ermöglicht.
+\end{itemize}
+\textbf{Backend-Logik und Datenaggregation:}
+\begin{itemize}
+    \item Die benötigten Daten für Abwesenheiten (Urlaub, Krankheit, Sondertage) werden aus verschiedenen SAP-Tabellen extrahiert und mithilfe von Core Data Services (CDS) Views zusammengeführt.
+    \item Die Aggregation zusammenhängender Zeiträume, z. B. mehrtägiger Urlaubsblöcke, wird mit einer Tabellenfunktion gelöst, die das „Islands and Gaps“-Problem adressiert. Start- und Enddatum werden mit den Aggregatfunktionen MIN und MAX ermittelt.
+\end{itemize}
+\textbf{Zugriffskontrolle und Sicherheit:}
+\begin{itemize}
+    \item Die Berechtigungen zur Ansicht der Daten werden durch das SAP-Berechtigungssystem gesteuert. Der Zugriff ist rollenbasiert:
+    \begin{itemize}
+        \item Vorstand und Backoffice: Vollständige Ansicht aller Daten.
+        \item Teamleiter: Zugriff nur auf Daten ihrer Teams.
+    \end{itemize}
+    \item Alle Datenübertragungen erfolgen verschlüsselt über HTTPS.
+\end{itemize}
+\textbf{Benutzeroberfläche (Frontend):}
+\begin{itemize}
+    \item Die App bietet eine zentrale Kalenderansicht, die mit dem SAPUI5-PlanningCalendar-Element umgesetzt wird. Die Abwesenheiten werden als Termine mit dynamischen Farben und Symbolen dargestellt. Diese werden mithilfe von Formatter-Funktionen an die Art der Abwesenheit angepasst.
+    \item Eine Toolbar mit Filter- und Suchfunktionen ermöglicht eine gezielte Auswahl von Mitarbeitern und Zeiträumen.
+\end{itemize}
+\textbf{Datenbereitstellung durch OData-Service:}
+\begin{itemize}
+    \item Der OData-Service wird über das SADL-Framework direkt aus den CDS Views generiert. Dabei werden nur lesende Abfragen implementiert, um die Datenintegrität sicherzustellen.
+    \item Der Service liefert die aggregierten Abwesenheitsdaten in Echtzeit an die Benutzeroberfläche.
+\end{itemize}
+\begin{itemize}
+    \item \textbf{Test- und Entwicklungsumgebung:}
+    \item Entwicklung und Tests erfolgen zunächst auf dem Entwicklungs-System, bevor die App auf das Live-System transportiert wird.
+    \item Eine umfassende Testmatrix stellt sicher, dass funktionale Anforderungen, Sicherheitsstandards und Berechtigungen korrekt umgesetzt werden.
+\end{itemize}
+\textbf{Dokumentation und Schulung:}
+\begin{itemize}
+    \item Die Anwendung wird durch eine umfassende Entwicklerdokumentation und einen Benutzerleitfaden im Intranet ergänzt.
+    \item Bei der Einführung der App werden Schulungen für das Backoffice sowie die Teamleiter durchgeführt.
+\end{itemize}
