@@ -1,0 +1,161 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    fragmentName="antragsmanagement.antrag.manage.view.fragments.createWizard">
+    <Dialog
+        id="createWizardDialog"
+        contentWidth="60%"
+        contentHeight="80%"
+        resizable="true"
+        draggable="true">
+        <customHeader>
+            <Bar>
+                <contentMiddle>
+                    <Title text="Neuen Antrag erstellen" level="H1"/>
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+        <content>
+            <Wizard
+                id="createRequestWizard"
+                complete="onWizardComplete"
+                finishButtonText="Antrag erstellen">
+                
+                <!-- Allgemeine Informationen -->
+                <WizardStep
+                    id="step1"
+                    title="Allgemeine Informationen"
+                    validated="true">
+                    <form:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="4"
+                        labelSpanL="4"
+                        labelSpanM="4"
+                        labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="0"
+                        emptySpanL="0"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="1"
+                        columnsL="1"
+                        columnsM="1">
+                        <form:content>
+                            <Label text="Antragstitel" required="true"/>
+                            <Input id="inputTitle" placeholder="Titel eingeben..."/>
+                            
+                            <Label text="Beschreibung"/>
+                            <TextArea id="inputDescription" rows="4" placeholder="Beschreibung eingeben..."/>
+                            
+                            <Label text="Priorität"/>
+                            <Select id="selectPriority">
+                                <items>
+                                    <core:Item key="low" text="Niedrig"/>
+                                    <core:Item key="medium" text="Mittel"/>
+                                    <core:Item key="high" text="Hoch"/>
+                                </items>
+                            </Select>
+                        </form:content>
+                    </form:SimpleForm>
+                </WizardStep>
+
+                <!-- Step 2 -->
+                <WizardStep
+                    id="step2"
+                    title="Thema 1"
+                    validated="true">
+                    <form:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="4"
+                        labelSpanL="4"
+                        labelSpanM="4"
+                        labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="0"
+                        emptySpanL="0"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="1"
+                        columnsL="1"
+                        columnsM="1">
+                        <form:content>
+                            <Label text="Feld 1"/>
+                            <Input id="inputTheme1Field1" placeholder="Wert eingeben..."/>
+                            
+                            <Label text="Feld 2"/>
+                            <Input id="inputTheme1Field2" placeholder="Wert eingeben..."/>
+                        </form:content>
+                    </form:SimpleForm>
+                </WizardStep>
+
+                <!-- Step 3 -->
+                <WizardStep
+                    id="step3"
+                    title="Thema 2"
+                    validated="true">
+                    <form:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="4"
+                        labelSpanL="4"
+                        labelSpanM="4"
+                        labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="0"
+                        emptySpanL="0"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="1"
+                        columnsL="1"
+                        columnsM="1">
+                        <form:content>
+                            <Label text="Feld 1"/>
+                            <Input id="inputTheme2Field1" placeholder="Wert eingeben..."/>
+                            
+                            <Label text="Feld 2"/>
+                            <Input id="inputTheme2Field2" placeholder="Wert eingeben..."/>
+                        </form:content>
+                    </form:SimpleForm>
+                </WizardStep>
+
+                <!-- Step 4 -->
+                <WizardStep
+                    id="step4"
+                    title="Zusammenfassung"
+                    validated="true">
+                    <VBox class="sapUiSmallMargin">
+                        <MessageStrip
+                            text="Bitte überprüfen Sie Ihre Eingaben, bevor Sie den Antrag erstellen."
+                            type="Information"
+                            showIcon="true"/>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12">
+                            <form:content>
+                                <Label text="Antragstitel"/>
+                                <Text id="summaryTitle" text=""/>
+                                
+                                <Label text="Beschreibung"/>
+                                <Text id="summaryDescription" text=""/>
+                                
+                                <Label text="Priorität"/>
+                                <Text id="summaryPriority" text=""/>
+                            </form:content>
+                        </form:SimpleForm>
+                    </VBox>
+                </WizardStep>
+
+            </Wizard>
+        </content>
+        <beginButton>
+            <Button text="Abbrechen" press="onCancelWizard"/>
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>

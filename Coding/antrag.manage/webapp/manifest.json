@@ -52,7 +52,7 @@
       "phone": true
     }
   },
-  "sap.ui5": {
+   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
       "minUI5Version": "1.136.12",
@@ -129,6 +129,14 @@
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
                     "type": "ResponsiveTable"
+                  },
+                  "actions": {
+                    "openWizard": {
+                      "press": "antragsmanagement.antrag.manage.controller.Request.openWizard",
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "Hier Absaften"
+                    }
                   }
                 }
               }

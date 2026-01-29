@@ -1,0 +1,61 @@
+
+**** Log file opened at 2026-01-28 15:53:26 CET (GMT+01:00 Central European Standard Time) Rel. 3.1.12 (2025-04-18) [754.519]
+Info:     >Wed Jan 28 15:53:26,465<    >RfcGetException (rc=RFCGET_ERROR_CONNECTION_CANCELED) message: connection [3/21595067] closed after cancel
+
+	at com.sap.conn.rfc.engine.RfcIoOpenCntl.RfcCancel(RfcIoOpenCntl.java:2038)
+	at com.sap.conn.jco.rt.ClientConnection.cancel(ClientConnection.java:240)
+	at com.sap.conn.jco.rt.ConnectionManager.releaseWithCancel(ConnectionManager.java:386)
+	at com.sap.conn.jco.rt.Context.closeConnections(Context.java:316)
+	at com.sap.conn.jco.rt.Context.reset(Context.java:379)
+	at com.sap.conn.jco.rt.DefaultSessionManager.finished(DefaultSessionManager.java:175)
+	at com.sap.adt.communication.internal.jco.session.JCoSessionManager.removeSession(JCoSessionManager.java:157)
+	at com.sap.adt.communication.internal.jco.session.JCoSession.closeInternal(JCoSession.java:150)
+	at com.sap.adt.communication.internal.jco.session.JCoSession.terminate(JCoSession.java:129)
+	at com.sap.adt.communication.internal.jco.dispatcher.JCoFunctionExecutor.doCancel(JCoFunctionExecutor.java:165)
+	at com.sap.adt.communication.util.CancelableBlockingJob.run(CancelableBlockingJob.java:168)
+	at com.sap.adt.communication.internal.jco.dispatcher.JCoRequestDispatcher.dispatchInternal(JCoRequestDispatcher.java:170)
+	at com.sap.adt.communication.internal.jco.dispatcher.JCoRequestDispatcher.dispatch(JCoRequestDispatcher.java:110)
+	at com.sap.adt.communication.internal.session.SystemSession.dispatchRequest(SystemSession.java:134)
+	at com.sap.adt.communication.internal.session.SystemSession.sendRequest(SystemSession.java:129)
+	at com.sap.adt.communication.internal.session.SystemSession.sendRequest(SystemSession.java:89)
+	at com.sap.adt.communication.internal.resources.RestResource.invoke(RestResource.java:69)
+	at com.sap.adt.communication.internal.resources.AbstractRestResource.post(AbstractRestResource.java:66)
+	at com.sap.adt.debugger.internal.AbapDebuggerServices.post(AbapDebuggerServices.java:904)
+	at com.sap.adt.debugger.internal.AbapDebuggerServices.waitForDebuggeeSessions(AbapDebuggerServices.java:771)
+	at com.sap.adt.debugger.ui.internal.launch.AutoAttachBackendListener.waitForDebuggeesAndAttach(AutoAttachBackendListener.java:631)
+	at com.sap.adt.debugger.ui.internal.launch.AutoAttachBackendListener$AutoAttachJob.run(AutoAttachBackendListener.java:921)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+<RfcGetException
+
+
+Error: [3]    >Wed Jan 28 15:53:26,467<    RfcException raised by system [S4D|s4dev.mibs-ag.de|00]:
+	message: connection [3/21595067] closed after cancel
+
+	at com.sap.conn.rfc.engine.RfcIoOpenCntl.RfcCancel(RfcIoOpenCntl.java:2038)
+	at com.sap.conn.jco.rt.ClientConnection.cancel(ClientConnection.java:240)
+	at com.sap.conn.jco.rt.ConnectionManager.releaseWithCancel(ConnectionManager.java:386)
+	at com.sap.conn.jco.rt.Context.closeConnections(Context.java:316)
+	at com.sap.conn.jco.rt.Context.reset(Context.java:379)
+	at com.sap.conn.jco.rt.DefaultSessionManager.finished(DefaultSessionManager.java:175)
+	at com.sap.adt.communication.internal.jco.session.JCoSessionManager.removeSession(JCoSessionManager.java:157)
+	at com.sap.adt.communication.internal.jco.session.JCoSession.closeInternal(JCoSession.java:150)
+	at com.sap.adt.communication.internal.jco.session.JCoSession.terminate(JCoSession.java:129)
+	at com.sap.adt.communication.internal.jco.dispatcher.JCoFunctionExecutor.doCancel(JCoFunctionExecutor.java:165)
+	at com.sap.adt.communication.util.CancelableBlockingJob.run(CancelableBlockingJob.java:168)
+	at com.sap.adt.communication.internal.jco.dispatcher.JCoRequestDispatcher.dispatchInternal(JCoRequestDispatcher.java:170)
+	at com.sap.adt.communication.internal.jco.dispatcher.JCoRequestDispatcher.dispatch(JCoRequestDispatcher.java:110)
+	at com.sap.adt.communication.internal.session.SystemSession.dispatchRequest(SystemSession.java:134)
+	at com.sap.adt.communication.internal.session.SystemSession.sendRequest(SystemSession.java:129)
+	at com.sap.adt.communication.internal.session.SystemSession.sendRequest(SystemSession.java:89)
+	at com.sap.adt.communication.internal.resources.RestResource.invoke(RestResource.java:69)
+	at com.sap.adt.communication.internal.resources.AbstractRestResource.post(AbstractRestResource.java:66)
+	at com.sap.adt.debugger.internal.AbapDebuggerServices.post(AbapDebuggerServices.java:904)
+	at com.sap.adt.debugger.internal.AbapDebuggerServices.waitForDebuggeeSessions(AbapDebuggerServices.java:771)
+	at com.sap.adt.debugger.ui.internal.launch.AutoAttachBackendListener.waitForDebuggeesAndAttach(AutoAttachBackendListener.java:631)
+	at com.sap.adt.debugger.ui.internal.launch.AutoAttachBackendListener$AutoAttachJob.run(AutoAttachBackendListener.java:921)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+	return code: RFC_CANCELED (RFC_CANCELED)
+	error group: RFC_ERROR_REQUEST_CANCELLED
+
