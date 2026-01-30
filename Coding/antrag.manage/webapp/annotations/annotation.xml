@@ -23,7 +23,7 @@
     <Annotation Term="UI.LineItem" Qualifier="ActionButtons">
         <Collection>
             <Record Type="UI.DataFieldForAction">
-                <PropertyValue Property="Label" String="Hier Absaften"/>
+                <PropertyValue Property="Label" String="Anlegen"/>
                 <PropertyValue Property="Action" String="com.sap.gateway.srvd.zmvd_ui_req_requests.v0001.openWizard"/>
             </Record>
         </Collection>
