@@ -135,7 +135,7 @@
                       "press": "antragsmanagement.antrag.manage.controller.Request.openWizard",
                       "enabled": true,
                       "requiresSelection": false,
-                      "text": "Hier Absaften"
+                      "text": "Anlegen"
                     }
                   }
                 }

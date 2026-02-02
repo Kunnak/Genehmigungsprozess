@@ -6,7 +6,7 @@
     <Dialog
         id="createWizardDialog"
         contentWidth="60%"
-        contentHeight="80%"
+        contentHeight="45%"
         resizable="true"
         draggable="true">
         <customHeader>
@@ -20,12 +20,13 @@
             <Wizard
                 id="createRequestWizard"
                 complete="onWizardComplete"
-                finishButtonText="Antrag erstellen">
+                finishButtonText="Antrag erstellen"
+                renderMode="Page">
                 
                 <!-- Allgemeine Informationen -->
                 <WizardStep
                     id="step1"
-                    title="Allgemeine Informationen"
+                    title="Kategorie wählen"
                     validated="true">
                     <form:SimpleForm
                         editable="true"
@@ -43,20 +44,21 @@
                         columnsL="1"
                         columnsM="1">
                         <form:content>
+                            <Label text="Manufacturer"/>
+							<Select selectedKey="{/Category}">
+								<core:Item key="Arbeitssicherheit" text="Arbeitssicherheit"/>
+								<core:Item key="Ausbildung" text="Ausbildung"/>
+								<core:Item key="Barausgabe" text="Barausgabe"/>
+								<core:Item key="Dienstreisen" text="Dienstreisen"/>
+								<core:Item key="Eigentümergemeinschaft" text="Eigentümergemeinschaft"/>
+								<core:Item key="Equip" text="Equip"/>
+							</Select>
+
                             <Label text="Antragstitel" required="true"/>
                             <Input id="inputTitle" placeholder="Titel eingeben..."/>
                             
                             <Label text="Beschreibung"/>
                             <TextArea id="inputDescription" rows="4" placeholder="Beschreibung eingeben..."/>
-                            
-                            <Label text="Priorität"/>
-                            <Select id="selectPriority">
-                                <items>
-                                    <core:Item key="low" text="Niedrig"/>
-                                    <core:Item key="medium" text="Mittel"/>
-                                    <core:Item key="high" text="Hoch"/>
-                                </items>
-                            </Select>
                         </form:content>
                     </form:SimpleForm>
                 </WizardStep>
@@ -64,7 +66,7 @@
                 <!-- Step 2 -->
                 <WizardStep
                     id="step2"
-                    title="Thema 1"
+                    title=""
                     validated="true">
                     <form:SimpleForm
                         editable="true"
