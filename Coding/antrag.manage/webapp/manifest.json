@@ -52,14 +52,15 @@
       "phone": true
     }
   },
-   "sap.ui5": {
+  "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
       "minUI5Version": "1.136.12",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
-        "sap.fe.templates": {}
+        "sap.fe.templates": {},
+        "sap.f": {}
       }
     },
     "contentDensities": {
@@ -91,22 +92,37 @@
       "css": []
     },
     "routing": {
-      "config": {},
+      "config": {
+        "flexibleColumnLayout": {
+          "defaultTwoColumnLayoutType": "TwoColumnsBeginExpanded",
+          "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+        },
+        "routerClass": "sap.f.routing.Router"
+      },
       "routes": [
         {
           "pattern": ":?query:",
           "name": "RequestsList",
-          "target": "RequestsList"
+          "target": [
+            "RequestsList"
+          ]
         },
         {
           "pattern": "Requests({key}):?query:",
           "name": "RequestsObjectPage",
-          "target": "RequestsObjectPage"
+          "target": [
+            "RequestsList",
+            "RequestsObjectPage"
+          ]
         },
         {
           "pattern": "Requests({key})/_Offer({key2}):?query:",
           "name": "OffersObjectPage",
-          "target": "OffersObjectPage"
+          "target": [
+            "RequestsList",
+            "RequestsObjectPage",
+            "OffersObjectPage"
+          ]
         }
       ],
       "targets": {
@@ -118,6 +134,7 @@
             "settings": {
               "contextPath": "/Requests",
               "variantManagement": "Page",
+              "initialLoad": true,
               "navigation": {
                 "Requests": {
                   "detail": {
@@ -141,7 +158,9 @@
                 }
               }
             }
-          }
+          },
+          "controlAggregation": "beginColumnPages",
+          "contextPattern": ""
         },
         "RequestsObjectPage": {
           "type": "Component",
@@ -159,7 +178,9 @@
                 }
               }
             }
-          }
+          },
+          "controlAggregation": "midColumnPages",
+          "contextPattern": "/Requests({key})"
         },
         "OffersObjectPage": {
           "type": "Component",
@@ -170,9 +191,17 @@
               "editableHeaderContent": false,
               "contextPath": "/Requests/_Offer"
             }
-          }
+          },
+          "controlAggregation": "endColumnPages",
+          "contextPattern": "/Requests({key})/_Offer({key2})"
         }
       }
+    },
+    "rootView": {
+      "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+      "type": "XML",
+      "async": true,
+      "id": "appRootView"
     }
   },
   "sap.fiori": {
