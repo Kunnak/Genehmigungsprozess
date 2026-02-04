@@ -151,7 +151,7 @@
                   },
                   "actions": {
                     "openWizard": {
-                      "press": "antragsmanagement.antrag.manage.controller.Wizard.openWizard",
+                      "press": ".extension.antragsmanagement.antrag.manage.ext.controller.RequestList.openWizard",
                       "enabled": true,
                       "requiresSelection": false,
                       "text": "Anlegen"
