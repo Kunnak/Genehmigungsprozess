@@ -151,7 +151,7 @@
                   },
                   "actions": {
                     "openWizard": {
-                      "press": "antragsmanagement.antrag.manage.controller.Request.openWizard",
+                      "press": "antragsmanagement.antrag.manage.controller.Wizard.openWizard",
                       "enabled": true,
                       "requiresSelection": false,
                       "text": "Anlegen"
@@ -204,6 +204,15 @@
       "type": "XML",
       "async": true,
       "id": "appRootView"
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "antragsmanagement.antrag.manage.ext.controller.RequestList"
+          }
+        }
+      }
     }
   },
   "sap.fiori": {

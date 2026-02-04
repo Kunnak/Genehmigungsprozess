@@ -2,9 +2,7 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core"
 	xmlns:f="sap.f"
-	xmlns:form="sap.ui.layout.form"
-	xmlns:u="sap.ui.unified"
-	xmlns:layout="sap.ui.layout">
+	xmlns:form="sap.ui.layout.form">
 	<Dialog
 		id="wizardDialog"
 		showHeader="false"
@@ -12,215 +10,181 @@
 		contentHeight="70%"
 		contentWidth="80%">
 		<f:DynamicPage
-			stickySubheaderProvider="CreateProductWizard"
 			toggleHeaderOnTitleClick="false"
 			class="sapUiNoContentPadding"
 			showFooter="true">
 			<f:title>
 				<f:DynamicPageTitle>
 					<f:heading>
-						<Title text="Wizard in a Dialog"/>
+						<Title text="Neuer Antrag"/>
 					</f:heading>
 				</f:DynamicPageTitle>
 			</f:title>
 			<f:content>
-				<Wizard id="CreateProductWizard"
+				<Wizard id="createRequest"
 						class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
 						showNextButton="false"
 						navigationChange="handleNavigationChange"
 						renderMode="Page">
-					<WizardStep id="ProductTypeStep"
-								title="Product Type"
-								validated="true"
-								activate="productTypeActivate">
-						<MessageStrip class="sapUiSmallMarginBottom"
-								text="The Wizard control is supposed to break down large tasks, into smaller steps, easier for the user to work with."
-								showIcon="true"/>
-						<Text class="sapUiSmallMarginBottom"
-								text="Sed fermentum, mi et tristique ullamcorper, sapien sapien faucibus sem, quis pretium nibh lorem malesuada diam. Nulla quis arcu aliquet, feugiat massa semper, volutpat diam. Nam vitae ante posuere, molestie neque sit amet, dapibus velit. Maecenas eleifend tempor lorem. Mauris vitae elementum mi, sed eleifend ligula. Nulla tempor vulputate dolor, nec dignissim quam convallis ut. Praesent vitae commodo felis, ut iaculis felis. Fusce quis eleifend sapien, eget facilisis nibh. Suspendisse est velit, scelerisque ut commodo eget, dignissim quis metus. Cras faucibus consequat gravida. Curabitur vitae quam felis. Phasellus ac leo eleifend, commodo tortor et, varius quam. Aliquam erat volutpat"/>
-						<HBox
-								alignItems="Center"
-								justifyContent="Center"
-								width="100%">
-							<SegmentedButton
-								width="320px"
-								selectedKey="{/productType}"
-								selectionChange="setProductTypeFromSegmented">
-								<items>
-									<SegmentedButtonItem icon="sap-icon://iphone" key="Mobile" text="Mobile"/>
-									<SegmentedButtonItem icon="sap-icon://sys-monitor" key="Desktop" text="Desktop"/>
-									<SegmentedButtonItem icon="sap-icon://database" key="Other" text="Other"/>
-								</items>
-							</SegmentedButton>
-						</HBox>
-					</WizardStep>
-					<WizardStep id="ProductInfoStep"
-								validated="false"
-								title="Product Information"
-								activate="additionalInfoValidation">
-						<MessageStrip class="sapUiSmallMarginBottom"
-								text="Validation in the wizard is controlled by calling the validateStep(Step) and invalidateStep(Step) methods "
-								showIcon="true"/>
-						<Text text="Cras tellus leo, volutpat vitae ullamcorper eu, posuere malesuada nisl. Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien et viverra imperdiet, orci erat porttitor nulla, eget commodo metus nibh nec ipsum. Aliquam lacinia euismod metus, sollicitudin pellentesque purus volutpat eget. Pellentesque egestas erat quis eros convallis mattis. Mauris hendrerit sapien a malesu corper eu, posuere malesuada nisl. Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien	corper eu, posuere malesuada nisl. Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien	"/>
+
+					<!-- Step 1: Allgemeine Informationen -->
+					<WizardStep id="requestInformation"
+								title="Allgemeine Informationen"
+								validated="true">
 						<form:SimpleForm
 								editable="true"
 								layout="ResponsiveGridLayout">
-							<Label text="Name" required="true"/>
-							<Input valueStateText="Enter 6 symbols or more"
-									valueState="{/productNameState}" id="ProductName" liveChange="additionalInfoValidation"
-									placeholder="Enter name with length greater than 6" value="{/productName}"/>
-							<Label text="Weight" required="true"/>
-							<Input valueStateText="Enter digits"
-									valueState="{/productWeightState}" id="ProductWeight"
-									liveChange="additionalInfoValidation" type="Number" placeholder="Enter digits"
-									value="{/productWeight}"/>
-							<Label text="Manufacturer"/>
-							<Select selectedKey="{/productManufacturer}">
-								<core:Item key="Apple" text="Apple"/>
-								<core:Item key="Microsoft" text="Microsoft"/>
-								<core:Item key="Google" text="Google"/>
-								<core:Item key="Sony" text="Sony"/>
-								<core:Item key="Samsung" text="Samsung"/>
-								<core:Item key="Logitech" text="Logitech"/>
+							<Label text="Titel" required="true"/>
+							<Input 
+								id="inputTitle"
+								value="{wizard>/newRequest/title}"
+								placeholder="Titel des Antrags"/>
+							
+							<Label text="Beschreibung" required="true"/>
+							<TextArea 
+								id="inputDescription"
+								value="{wizard>/newRequest/description}"
+								rows="6"
+								placeholder="Detaillierte Beschreibung"/>
+							
+							<Label text="Priorität"/>
+							<Select 
+								id="selectPriority"
+								selectedKey="{wizard>/newRequest/priority}">
+								<core:Item key="Low" text="Niedrig"/>
+								<core:Item key="Medium" text="Mittel"/>
+								<core:Item key="High" text="Hoch"/>
+								<core:Item key="Critical" text="Kritisch"/>
 							</Select>
-							<Label text="Description"/>
-							<TextArea value="{/productDescription}" rows="8"/>
 						</form:SimpleForm>
 					</WizardStep>
-					<WizardStep id="OptionalInfoStep"
+
+					<!-- Step 2: Kategorisierung -->
+					<WizardStep id="categorizationStep"
 								validated="true"
-								activate="optionalStepActivation"
-								title="Optional Information">
-						<MessageStrip class="sapUiSmallMarginBottom"
-								text="You can validate steps by default with the validated='true' property of the step. The next button is always enabled."
-								showIcon="true"/>
-						<Text text="Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec ppellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien	corper eu, posuere malesuada nisl. Integer pellentesque leo sit amet dui vehicula, quis ullamcorper est pulvinar. Nam in libero sem. Suspendisse arcu metus, molestie a turpis a, molestie aliquet dui. Donec pulvinar, sapien	"/>
+								title="Kategorisierung">
 						<form:SimpleForm
 								editable="true"
 								layout="ResponsiveGridLayout">
-							<Label text="Cover photo"/>
-							<u:FileUploader
-									width="100%"
-									tooltip="Upload product cover photo to the local server"
-									style="Emphasized"
-									placeholder="Choose a file for Upload..."/>
-							<Label text="Manufacturing date"/>
+							<Label text="Kategorie"/>
+							<Select 
+								id="selectCategory"
+								selectedKey="{wizard>/newRequest/category}">
+								<core:Item key="Hardware" text="Hardware"/>
+								<core:Item key="Software" text="Software"/>
+								<core:Item key="Service" text="Service"/>
+								<core:Item key="Other" text="Sonstiges"/>
+							</Select>
+							
+							<Label text="Abteilung"/>
+							<Input 
+								id="inputDepartment"
+								value="{wizard>/newRequest/department}"
+								placeholder="Abteilung"/>
+							
+							<Label text="Kostenstelle"/>
+							<Input 
+								id="inputCostCenter"
+								value="{wizard>/newRequest/costCenter}"
+								placeholder="Kostenstelle"/>
+						</form:SimpleForm>
+					</WizardStep>
+
+					<!-- Step 3: Zusätzliche Informationen -->
+					<WizardStep id="additionalInfoStep"
+								validated="true"
+								title="Zusätzliche Informationen">
+						<form:SimpleForm
+								editable="true"
+								layout="ResponsiveGridLayout">
+							<Label text="Gewünschtes Lieferdatum"/>
 							<DatePicker
-									id="DP3"
-									displayFormat="short"
-									value="{/manufacturingDate}"/>
-							<Label text="Availability"/>
-							<SegmentedButton selectedKey="{/availabilityType}">
-								<items>
-									<SegmentedButtonItem key="In store" text="In store"/>
-									<SegmentedButtonItem key="In depot" text="In depot"/>
-									<SegmentedButtonItem key="In repository" text="In repository"/>
-									<SegmentedButtonItem key="Out of stock" text="Out of stock"/>
-								</items>
-							</SegmentedButton>
-							<Label text="Size"/>
-							<Input value="{/size}"/>
-							<ComboBox maxWidth="100px" selectedKey="{/measurement}">
-								<core:Item key="X" text="X"/>
-								<core:Item key="Y" text="Y"/>
-								<core:Item key="Z" text="Z"/>
-							</ComboBox>
-
+								id="datePickerDelivery"
+								value="{wizard>/newRequest/requestedDeliveryDate}"
+								displayFormat="dd.MM.yyyy"/>
+							
+							<Label text="Budget"/>
+							<Input 
+								id="inputBudget"
+								value="{wizard>/newRequest/budget}"
+								type="Number"
+								placeholder="Budget in EUR"/>
+							
+							<Label text="Bemerkungen"/>
+							<TextArea 
+								id="textAreaRemarks"
+								value="{wizard>/newRequest/remarks}"
+								rows="4"
+								placeholder="Weitere Bemerkungen"/>
 						</form:SimpleForm>
 					</WizardStep>
-					<WizardStep id="PricingStep"
-								activate="pricingActivate"
-								complete="pricingComplete"
+
+					<!-- Step 4: Anhänge (Optional) -->
+					<WizardStep id="attachmentsStep"
 								validated="true"
-								title="Pricing">
-						<MessageStrip class="sapUiSmallMarginBottom"
-								text="You can use the wizard previousStep() and nextStep() methods to navigate from step to step without validation. Also you can use the GoToStep(step) method to scroll programmatically to previously visited steps."
-								showIcon="true"/>
+								title="Anhänge">
+						<MessageStrip 
+							class="sapUiSmallMarginBottom"
+							text="Hier können Sie optional Dateien zu Ihrem Antrag hinzufügen."
+							showIcon="true"
+							type="Information"/>
 						<form:SimpleForm
 								editable="true"
 								layout="ResponsiveGridLayout">
-							<Label text="Price"/>
-							<Input value="{/productPrice}"/>
-							<Label text="Discount group"/>
-							<ComboBox selectedKey="{/discountGroup}">
-								<core:Item key="Kids" text="Kids"/>
-								<core:Item key="Teens" text="Teens"/>
-								<core:Item key="Adults" text="Adults"/>
-								<core:Item key="Elderly" text="Elderly"/>
-							</ComboBox>
-							<Label text=" VAT is included"/>
-							<CheckBox selected="{/productVAT}"/>
+							<Label text="Anhänge"/>
+							<Text text="Datei-Upload wird im nächsten Schritt implementiert"/>
 						</form:SimpleForm>
 					</WizardStep>
+
+					<!-- Step 5: Zusammenfassung -->
 					<WizardStep
-							id="ReviewPage"
-							activate="reviewActivate"
-							complete="reviewComplete"
+							id="reviewPage"
 							validated="true"
-							title="Review page">
-								<form:SimpleForm
-										title="1. Product Type"
-										editable="false"
-										layout="ResponsiveGridLayout">
-									<form:content>
-										<Label text="Type"/>
-										<Text id="ProductTypeChosen" text="{/productType}"/>
-										<Link press="editStepOne" text="Edit" />
-									</form:content>
-								</form:SimpleForm>
+							title="Zusammenfassung">
+						<form:SimpleForm
+								title="1. Allgemeine Informationen"
+								editable="false"
+								layout="ResponsiveGridLayout">
+							<form:content>
+								<Label text="Titel"/>
+								<Text id="summaryTitle" text="{wizard>/newRequest/title}"/>
+								<Label text="Beschreibung"/>
+								<Text id="summaryDescription" text="{wizard>/newRequest/description}"/>
+								<Label text="Priorität"/>
+								<Text id="summaryPriority" text="{wizard>/newRequest/priority}"/>
+								<Link press="editStepOne" text="Bearbeiten" />
+							</form:content>
+						</form:SimpleForm>
 
-								<form:SimpleForm
-										title="2. Product Information"
-										editable="false"
-										layout="ResponsiveGridLayout">
-									<form:content>
-										<Label text="Name"/>
-										<Text id="ProductNameChosen" text="{/productName}"/>
-										<Label text="Weight"/>
-										<Text id="ProductWeightChosen" text="{/productWeight}"/>
-										<Label text="Manufacturer"/>
-										<Text id="ProductManufacturerChosen" text="{/productManufacturer}"/>
-										<Label text="Description"/>
-										<Text id="ProductDescriptionChosen" text="{/productDescription}"/>
-										<Link press="editStepTwo" text="Edit" />
-									</form:content>
-								</form:SimpleForm>
+						<form:SimpleForm
+								title="2. Kategorisierung"
+								editable="false"
+								layout="ResponsiveGridLayout">
+							<form:content>
+								<Label text="Kategorie"/>
+								<Text id="summaryCategory" text="{wizard>/newRequest/category}"/>
+								<Label text="Abteilung"/>
+								<Text id="summaryDepartment" text="{wizard>/newRequest/department}"/>
+								<Label text="Kostenstelle"/>
+								<Text id="summaryCostCenter" text="{wizard>/newRequest/costCenter}"/>
+								<Link press="editStepTwo" text="Bearbeiten" />
+							</form:content>
+						</form:SimpleForm>
 
-								<form:SimpleForm
-										title="3. Optional Information"
-										editable="false"
-										layout="ResponsiveGridLayout">
-									<form:content>
-										<Label text="Some text"/>
-										<Text text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-										tempor incididunt ut labore et dolore magna aliqua. "/>
-										<Label text="Manufacturing Date"/>
-										<Text id="ManufacturingDate" text="{/manufacturingDate}"/>
-										<Label text="Availability"/>
-										<Text id="AvailabilityChosen" text="{/availabilityType}"/>
-										<Label text="Size"/>
-										<HBox>
-											<Text id="Size" text="{/size}"/>
-											<Text id="Size2" class="sapUiTinyMarginBegin" text="{/measurement}"/>
-										</HBox>
-										<Link press="editStepThree" text="Edit" />
-									</form:content>
-								</form:SimpleForm>
-
-								<form:SimpleForm
-										title="4. Pricing"
-										editable="false"
-										layout="ResponsiveGridLayout">
-									<form:content>
-										<Label text="Price"/>
-										<Text id="ProductPriceChosen" text="{/productPrice}"/>
-										<Label text="Discount Group"/>
-										<Text id="DiscountGroupChosen" text="{/discountGroup}"/>
-										<Label text="VAT Included"/>
-										<Text id="ProductVATChosen" text="{/productVAT}"/>
-										<Link press="editStepFour" text="Edit" />
-									</form:content>
-								</form:SimpleForm>
+						<form:SimpleForm
+								title="3. Zusätzliche Informationen"
+								editable="false"
+								layout="ResponsiveGridLayout">
+							<form:content>
+								<Label text="Gewünschtes Lieferdatum"/>
+								<Text id="summaryDeliveryDate" text="{wizard>/newRequest/requestedDeliveryDate}"/>
+								<Label text="Budget"/>
+								<Text id="summaryBudget" text="{wizard>/newRequest/budget}"/>
+								<Label text="Bemerkungen"/>
+								<Text id="summaryRemarks" text="{wizard>/newRequest/remarks}"/>
+								<Link press="editStepThree" text="Bearbeiten" />
+							</form:content>
+						</form:SimpleForm>
 					</WizardStep>
 				</Wizard>
 			</f:content>
@@ -228,11 +192,11 @@
 			<f:footer>
 				<OverflowToolbar>
 					<ToolbarSpacer/>
-					<Button text="Previous Step" visible="{/backButtonVisible}" press="onDialogBackButton" />
-					<Button text="Next Step" type="Emphasized" enabled="{/nextButtonEnabled}" visible="{/nextButtonVisible}" press="onDialogNextButton" />
-					<Button text="Review" type="Emphasized" visible="{/reviewButtonVisible}" press="onDialogNextButton" />
-					<Button text="Finish" type="Emphasized" visible="{/finishButtonVisible}" press="handleWizardSubmit" />
-					<Button	text="Cancel" type="Transparent" press="handleWizardCancel"/>
+					<Button text="Zurück" visible="{wizard>/backButtonVisible}" press="onDialogBackButton" />
+					<Button text="Weiter" type="Emphasized" enabled="{wizard>/nextButtonEnabled}" visible="{wizard>/nextButtonVisible}" press="onDialogNextButton" />
+					<Button text="Prüfen" type="Emphasized" visible="{wizard>/reviewButtonVisible}" press="onDialogNextButton" />
+					<Button text="Abschließen" type="Emphasized" visible="{wizard>/finishButtonVisible}" press="handleWizardSubmit" />
+					<Button	text="Abbrechen" type="Transparent" press="handleWizardCancel"/>
 				</OverflowToolbar>
 			</f:footer>
 		</f:DynamicPage>
