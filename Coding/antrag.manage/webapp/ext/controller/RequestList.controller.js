@@ -3,6 +3,7 @@
 // | |   | / __| __| | |   / _ \| '_ \| __| '__/ _ \| | |/ _ \ '__|
 // | |___| \__ \ |_  | |__| (_) | | | | |_| | | (_) | | |  __/ |   
 // |_____|_|___/\__|  \____\___/|_| |_|\__|_|  \___/|_|_|\___|_|    
+// 
 
 sap.ui.define([
 	'sap/ui/core/mvc/ControllerExtension',
@@ -36,9 +37,26 @@ sap.ui.define([
 					that.oWizardDialog = oDialog;
 					that.base.getView().addDependent(that.oWizardDialog);
 					
-					// Create wizard model
+					// BOOKMARK - WizardModel
 					that.oWizardModel = new JSONModel({
-						newRequest: {},
+						newRequest: {
+							title: "",
+							description: "",
+							category_id: null,
+							CategoryName: "",
+							offers: []
+						},
+						currentOffer: {
+                            description: "",
+							positions: [],
+							calculatedPrice: 0,
+							currency: "EUR"
+						},
+						currentPosition: {
+							description: "",
+							price: null,
+							currency: "EUR"
+						},
 						nextButtonVisible: true,
 						nextButtonEnabled: true,
 						backButtonVisible: false,
@@ -59,7 +77,25 @@ sap.ui.define([
 				});
 			} else {
 				if (this.oWizardModel) {
-					this.oWizardModel.setProperty("/newRequest", {});
+					this.oWizardModel.setProperty("/newRequest", {
+						title: "",
+						description: "",
+						category_id: null,
+						CategoryName: "",
+						offers: []
+					});
+					this.oWizardModel.setProperty("/currentOffer", {
+						description: "",
+						positions: [],
+						calculatedPrice: 0,
+						currency: "EUR"
+					});
+					this.oWizardModel.setProperty("/currentPosition", {
+						description: "",
+						quantity: null,
+						unitPrice: null,
+						currency: "EUR"
+					});
 				}
 				this.iSelectedStepIndex = 0;
 				
@@ -137,9 +173,8 @@ sap.ui.define([
 			
 			if (!this.oWizard) return;
 			
-			// Validate current step before proceeding
 			if (!this._validateCurrentStep()) {
-				return; // Stop navigation if validation fails
+				return; 
 			}
 			
 			this.iSelectedStepIndex = this.oWizard.getSteps().indexOf(this.oSelectedStep);
@@ -160,7 +195,6 @@ sap.ui.define([
 		_validateCurrentStep: function() {
 			var oNewRequest = this.oWizardModel.getProperty("/newRequest");
 			
-			// Step 1: Allgemeine Informationen
 			if (this.iSelectedStepIndex === 0) {
 				if (!oNewRequest.title || oNewRequest.title.trim() === "") {
 					MessageBox.error("Bitte geben Sie einen Titel ein.");
@@ -219,7 +253,24 @@ sap.ui.define([
 							that.oWizardDialog.close();
 						}
 						if (that.oWizardModel) {
-							that.oWizardModel.setProperty("/newRequest", {});
+							that.oWizardModel.setProperty("/newRequest", {
+								title: "",
+								description: "",
+								category_id: null,
+								CategoryName: "",
+								offers: []
+							});
+							that.oWizardModel.setProperty("/currentOffer", {
+								description: "",
+								positions: [],
+								calculatedPrice: 0,
+								currency: "EUR"
+							});
+							that.oWizardModel.setProperty("/currentPosition", {
+								description: "",
+								price: null,
+								currency: "EUR"
+							});
 						}
 						that.iSelectedStepIndex = 0;
 						that.oSelectedStep = that.oWizard ? that.oWizard.getSteps()[0] : null;
@@ -232,7 +283,6 @@ sap.ui.define([
 			var oNewRequest = this.oWizardModel.getProperty("/newRequest");
 			var that = this;
 			
-			// Final validation before submit
 			if (!this._validateCurrentStep()) {
 				return;
 			}
@@ -250,7 +300,18 @@ sap.ui.define([
 							that.oWizardDialog.close();
 						}
 						if (that.oWizardModel) {
-							that.oWizardModel.setProperty("/newRequest", {});
+							that.oWizardModel.setProperty("/newRequest", {
+								title: "",
+								description: "",
+								category_id: null,
+								CategoryName: "",
+								offers: []
+							});
+							that.oWizardModel.setProperty("/currentOffer", {
+								description: "",
+								price: null,
+								currency: "EUR"
+							});
 						}
 						that.iSelectedStepIndex = 0;
 						that.oSelectedStep = that.oWizard ? that.oWizard.getSteps()[0] : null;
@@ -278,6 +339,174 @@ sap.ui.define([
 
 		editStepThree: function() {
 			this._handleNavigationToStep(2);
+		},
+
+		onAddPosition: function() {
+			var oCurrentPosition = this.oWizardModel.getProperty("/currentPosition");
+			var aPositions = this.oWizardModel.getProperty("/currentOffer/positions") || [];
+			
+			// Validierung
+			if (!oCurrentPosition.description || oCurrentPosition.description.trim() === "") {
+				MessageBox.error("Bitte geben Sie eine Positionsbeschreibung ein.");
+				return;
+			}
+			if (!oCurrentPosition.price || oCurrentPosition.price <= 0) {
+				MessageBox.error("Bitte geben Sie einen gültigen Preis ein.");
+				return;
+			}
+			
+			// Neue Position erstellen
+			var oNewPosition = {
+				description: oCurrentPosition.description,
+				price: parseFloat(oCurrentPosition.price),
+				currency: oCurrentPosition.currency || "EUR"
+			};
+			
+			aPositions.push(oNewPosition);
+			this.oWizardModel.setProperty("/currentOffer/positions", aPositions);
+			
+			// Gesamtpreis des Angebots neu berechnen
+			this._calculateOfferPrice();
+			
+			// Eingabefelder zurücksetzen
+			this.oWizardModel.setProperty("/currentPosition", {
+				description: "",
+				price: null,
+				currency: "EUR"
+			});
+			
+			MessageBox.success("Position wurde hinzugefügt.");
+		},
+
+		onDeletePosition: function(oEvent) {
+			var oItem = oEvent.getSource().getParent();
+			var oTable = this._getControl("positionsTable");
+			var iIndex = oTable.indexOfItem(oItem);
+			
+			if (iIndex > -1) {
+				var aPositions = this.oWizardModel.getProperty("/currentOffer/positions");
+				aPositions.splice(iIndex, 1);
+				this.oWizardModel.setProperty("/currentOffer/positions", aPositions);
+				
+				// Gesamtpreis neu berechnen
+				this._calculateOfferPrice();
+			}
+		},
+
+		_calculateOfferPrice: function() {
+			var aPositions = this.oWizardModel.getProperty("/currentOffer/positions") || [];
+			var fTotalPrice = 0;
+			
+			aPositions.forEach(function(oPosition) {
+				fTotalPrice += oPosition.price;
+			});
+			
+			this.oWizardModel.setProperty("/currentOffer/calculatedPrice", fTotalPrice);
+		},
+
+		onAddOffer: function() {
+			var oCurrentOffer = this.oWizardModel.getProperty("/currentOffer");
+			var aOffers = this.oWizardModel.getProperty("/newRequest/offers") || [];
+			
+			// Validierung - nur Positionen prüfen, Beschreibung ist optional
+			if (!oCurrentOffer.positions || oCurrentOffer.positions.length === 0) {
+				MessageBox.error("Bitte fügen Sie mindestens eine Position hinzu.");
+				return;
+			}
+			
+			// Neues Angebot erstellen (mit deep copy der Positionen)
+			var oNewOffer = {
+				description: oCurrentOffer.description || "", // Kann leer sein
+				price: oCurrentOffer.calculatedPrice,
+				currency: oCurrentOffer.currency || "EUR",
+				positions: JSON.parse(JSON.stringify(oCurrentOffer.positions)), // Deep copy
+				isFavorite: aOffers.length === 0 // Erstes Angebot ist automatisch Favorit
+			};
+			
+			aOffers.push(oNewOffer);
+			this.oWizardModel.setProperty("/newRequest/offers", aOffers);
+			
+			// Aktuelles Angebot zurücksetzen
+			this.oWizardModel.setProperty("/currentOffer", {
+				description: "",
+				positions: [],
+				calculatedPrice: 0,
+				currency: "EUR"
+			});
+			
+			MessageBox.success("Angebot wurde hinzugefügt.");
+		},
+
+		onDeleteOffer: function(oEvent) {
+			var oItem = oEvent.getSource().getParent();
+			var oTable = this._getControl("offersTable");
+			var iIndex = oTable.indexOfItem(oItem);
+			
+			if (iIndex > -1) {
+				var aOffers = this.oWizardModel.getProperty("/newRequest/offers");
+				aOffers.splice(iIndex, 1);
+				this.oWizardModel.setProperty("/newRequest/offers", aOffers);
+			}
+		},
+
+		onSelectFavorite: function(oEvent) {
+			var oRadioButton = oEvent.getSource();
+			var oItem = oRadioButton.getParent();
+			var oTable = this._getControl("offersTable");
+			var iSelectedIndex = oTable.indexOfItem(oItem);
+			
+			var aOffers = this.oWizardModel.getProperty("/newRequest/offers");
+			
+			// Alle Favoriten zurücksetzen und nur das ausgewählte setzen
+			aOffers.forEach(function(oOffer, index) {
+				oOffer.isFavorite = (index === iSelectedIndex);
+			});
+			
+			this.oWizardModel.setProperty("/newRequest/offers", aOffers);
+		},
+
+		onShowPositions: function(oEvent) {
+			var oButton = oEvent.getSource();
+			var oBindingContext = oButton.getBindingContext("wizard");
+			var aPositions = oBindingContext.getProperty("positions");
+			
+			// Erstelle Popover mit Positionstabelle
+			if (!this._oPositionsPopover) {
+				this._oPositionsPopover = new sap.m.Popover({
+					title: "Positionen des Angebots",
+					contentWidth: "500px",
+					placement: "Left",
+					content: [
+						new sap.m.Table({
+							columns: [
+								new sap.m.Column({ header: new sap.m.Text({ text: "Beschreibung" }) }),
+								new sap.m.Column({ 
+									header: new sap.m.Text({ text: "Preis" }), 
+									width: "10em" 
+								})
+							]
+						})
+					]
+				});
+				this.base.getView().addDependent(this._oPositionsPopover);
+			}
+			
+			// Setze Positionen als Items
+			var oTable = this._oPositionsPopover.getContent()[0];
+			oTable.destroyItems();
+			
+			aPositions.forEach(function(oPosition) {
+				oTable.addItem(new sap.m.ColumnListItem({
+					cells: [
+						new sap.m.Text({ text: oPosition.description }),
+						new sap.m.Text({ 
+							text: oPosition.price + " " + oPosition.currency
+						})
+					]
+				}));
+			});
+			
+			this._oPositionsPopover.openBy(oButton);
 		}
 	});
 });
