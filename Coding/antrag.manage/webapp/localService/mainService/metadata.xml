@@ -1,3 +1,10 @@
+<!--  __  __      _            _       _           -->        
+<!-- |  \/  | ___| |_ __ _  __| | __ _| |_ __ _    --> 
+<!-- | |\/| |/ _ \ __/ _` |/ _` |/ _` | __/ _` |   -->
+<!-- | |  | |  __/ || (_| | (_| | (_| | || (_| |   -->
+<!-- |_|  |_|\___|\__\__,_|\__,_|\__,_|\__\__,_|   -->
+
+
 <?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" xmlns="http://docs.oasis-open.org/odata/ns/edm">
     <edmx:Reference Uri="/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value">

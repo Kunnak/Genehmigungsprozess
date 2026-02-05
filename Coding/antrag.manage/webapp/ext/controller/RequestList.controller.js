@@ -1,3 +1,9 @@
+//  _     _     _      ____            _             _ _           
+// | |   (_)___| |_   / ___|___  _ __ | |_ _ __ ___ | | | ___ _ __ 
+// | |   | / __| __| | |   / _ \| '_ \| __| '__/ _ \| | |/ _ \ '__|
+// | |___| \__ \ |_  | |__| (_) | | | | |_| | | (_) | | |  __/ |   
+// |_____|_|___/\__|  \____\___/|_| |_|\__|_|  \___/|_|_|\___|_|    
+
 sap.ui.define([
 	'sap/ui/core/mvc/ControllerExtension',
 	'sap/m/MessageBox',
@@ -154,7 +160,7 @@ sap.ui.define([
 		_validateCurrentStep: function() {
 			var oNewRequest = this.oWizardModel.getProperty("/newRequest");
 			
-			// Step 0: Allgemeine Informationen
+			// Step 1: Allgemeine Informationen
 			if (this.iSelectedStepIndex === 0) {
 				if (!oNewRequest.title || oNewRequest.title.trim() === "") {
 					MessageBox.error("Bitte geben Sie einen Titel ein.");
@@ -166,6 +172,11 @@ sap.ui.define([
 				}
 				if (!oNewRequest.category_id) {
 					MessageBox.error("Bitte wählen Sie eine Kategorie aus.");
+					return false;
+				}
+			} else if (this.iSelectedStepIndex === 1) {
+				if (!oNewRequest.title || oNewRequest.title.trim() === "") {
+					MessageBox.error("Bitte geben Sie einen Titel ein.");
 					return false;
 				}
 			}
