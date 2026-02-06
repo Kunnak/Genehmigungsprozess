@@ -50,20 +50,22 @@
 							<Label text="Betreff" required="true" />
 							<Input
 								id="inputTitle"
-								value="{wizard>/newRequest/title}"
-								placeholder="Titel des Antrags" />
+                                value="{wizard>/newRequest/title}"
+                                change=".onSelectionChange"
+                                />
 
 							<Label text="Beschreibung" required="true" />
 							<TextArea
 								id="inputDescription"
 								value="{wizard>/newRequest/description}"
-								rows="6"
-								placeholder="Detaillierte Beschreibung" />
+                                change=".onSelectionChange"
+								rows="6" />
 
 							<Label text="Kategorie" required="true" />
 							<ComboBox
 								id="comboCategory"
 								selectedKey="{wizard>/newRequest/category_id}"
+                                change=".onSelectionChange"
 								items="{
                                 path: '/Categories'
                                 }">
@@ -92,12 +94,13 @@
 										required="true" />
 									<TextArea
 										id="inputOfferDescription"
+                                        change="onSelectionChange"
 										value="{wizard>/currentPosition/description}"
-										rows="3"
-										placeholder="Beschreibung des Angebots" />
+										rows="3"/>
 
 									<Label text="Preis" required="true" />
 									<Input id="inputOfferPrice"
+                                        change="onSelectionChange"
 										value="{
                                             parts: ['wizard>/currentPosition/price'],
                                             type: 'Number' }" />
@@ -110,6 +113,7 @@
 
 								<Table id="positionTable"
 									items="{wizard>/currentOffer/positions}"
+                                    headerText="Positionen"
 									class="sapUiSmallMarginTop">
 									<columns>
 										<Column>
@@ -143,7 +147,8 @@
 							</HBox>
 
 							<HBox justifyContent="End" class="sapUiSmallMarginTop">
-                                <Button text="Position hinzufügen"
+                                <Button id="addPositionButton"
+                                    text="Position hinzufügen"
                                     type="Emphasized"
                                     press="onAddPosition" />
                                 <Button text="Angebot übertragen"
@@ -154,6 +159,7 @@
 							<!-- Tabelle -->
 							<Table id="offersTable"
 								items="{wizard>/newRequest/offers}"
+                                headerText="Angebote"
 								class="sapUiSmallMarginTop">
 								<columns>
 									<Column width="5em">

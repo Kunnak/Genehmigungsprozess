@@ -9,8 +9,9 @@ sap.ui.define([
 	'sap/ui/core/mvc/ControllerExtension',
 	'sap/m/MessageBox',
 	'sap/ui/core/Fragment',
-	'sap/ui/model/json/JSONModel'
-], function (ControllerExtension, MessageBox, Fragment, JSONModel) {
+	'sap/ui/model/json/JSONModel',
+    'sap/ui/core/ValueState'
+], function (ControllerExtension, MessageBox, Fragment, JSONModel, ValueState) {
 	'use strict';
 
 	return ControllerExtension.extend('antragsmanagement.antrag.manage.ext.controller.RequestList', {
@@ -65,7 +66,6 @@ sap.ui.define([
 					});
 					that.oWizardDialog.setModel(that.oWizardModel, "wizard");
 					
-					// Initialize wizard after dialog is opened
 					that.oWizardDialog.attachAfterOpen(function() {
 						that.oWizard = that._getControl("createRequest");
 						that.iSelectedStepIndex = 0;
@@ -166,6 +166,79 @@ sap.ui.define([
 			}
 		},
 
+		onSelectionChange: function(oEvent) {
+			var oControl = oEvent.getSource();
+			var sValue = oControl.getValue();
+			
+			if (oControl.getId() === this._getControl("inputTitle").getId()) {
+				if (!sValue || sValue.trim() === "") {
+					oControl.setValueState(ValueState.Error);
+					oControl.setValueStateText("Betreff erforderlich!");
+				} else {
+					oControl.setValueState(ValueState.None);
+					oControl.setValueStateText("");
+				}
+			} else if (oControl.getId() === this._getControl("inputDescription").getId()) {
+				if (!sValue || sValue.trim() === "") {
+					oControl.setValueState(ValueState.Error);
+					oControl.setValueStateText("Beschreibung erforderlich!");
+				} else {
+					oControl.setValueState(ValueState.None);
+					oControl.setValueStateText("");
+				}
+			} else if (oControl.getId() === this._getControl("comboCategory").getId()) {
+				var sKey = oControl.getSelectedKey();
+				if (!sKey) {
+					oControl.setValueState(ValueState.Error);
+					oControl.setValueStateText("Kategorie erforderlich!");
+				} else {
+					oControl.setValueState(ValueState.None);
+					oControl.setValueStateText("");
+				}
+			} else if (oControl.getId() === this._getControl("inputOfferPrice").getId()) {
+				if (!sValue || sValue.trim() === "") {
+					oControl.setValueState(ValueState.Error);
+					oControl.setValueStateText("Preis erforderlich!");
+				} else {
+					oControl.setValueState(ValueState.None);
+					oControl.setValueStateText("");
+				}
+			} else if (oControl.getId() === this._getControl("inputOfferDescription").getId()) {
+				if (!sValue || sValue.trim() === "") {
+					oControl.setValueState(ValueState.Error);
+					oControl.setValueStateText("Beschreibung erforderlich!");
+				} else {
+					oControl.setValueState(ValueState.None);
+					oControl.setValueStateText("");
+				}
+
+            }
+		},
+
+		_clearValueStates: function(oControl) {
+			oControl.setValueState(ValueState.None);
+			oControl.setValueStateText("");
+		},
+
+		_resetValueStates: function() {
+			var oTitleField = this._getControl("inputTitle");
+			var oDescriptionField = this._getControl("inputDescription");
+			var oCategoryField = this._getControl("comboCategory");
+			
+			if (oTitleField) {
+				oTitleField.setValueState(ValueState.None);
+				oTitleField.setValueStateText("");
+			}
+			if (oDescriptionField) {
+				oDescriptionField.setValueState(ValueState.None);
+				oDescriptionField.setValueStateText("");
+			}
+			if (oCategoryField) {
+				oCategoryField.setValueState(ValueState.None);
+				oCategoryField.setValueStateText("");
+			}
+		},
+
 		onDialogNextButton: function() {
 			if (!this.oWizard) {
 				this.oWizard = this._getControl("createRequest");
@@ -175,7 +248,7 @@ sap.ui.define([
 			
 			if (!this._validateCurrentStep()) {
 				return; 
-			}
+			} 
 			
 			this.iSelectedStepIndex = this.oWizard.getSteps().indexOf(this.oSelectedStep);
 			var oNextStep = this.oWizard.getSteps()[this.iSelectedStepIndex + 1];
@@ -197,20 +270,73 @@ sap.ui.define([
 			
 			if (this.iSelectedStepIndex === 0) {
 				if (!oNewRequest.title || oNewRequest.title.trim() === "") {
-					MessageBox.error("Bitte geben Sie einen Titel ein.");
-					return false;
-				}
+                    var inputTitleField = this._getControl("inputTitle");
+                    inputTitleField.setValueState(ValueState.Error);
+                    inputTitleField.setValueStateText("Betreff angeben!");
+                    var bCheckTitle = false;
+				} else {
+                    var inputTitleField = this._getControl("inputTitle");
+                    this._clearValueStates(inputTitleField);
+                    var bCheckTitle = true;
+                }
 				if (!oNewRequest.description || oNewRequest.description.trim() === "") {
-					MessageBox.error("Bitte geben Sie eine Beschreibung ein.");
-					return false;
-				}
+                    var inputDescriptionField = this._getControl("inputDescription");
+                    inputDescriptionField.setValueState(ValueState.Error);
+                    inputDescriptionField.setValueStateText("Beschreibung angeben!");
+                    var bCheckDescription = false;
+				} else {
+                    var inputDescriptionField = this._getControl("inputDescription");
+                    this._clearValueStates(inputDescriptionField);
+                    var bCheckDescription = true;
+                }
 				if (!oNewRequest.category_id) {
-					MessageBox.error("Bitte wählen Sie eine Kategorie aus.");
+                    var inputCategoryField = this._getControl("comboCategory");
+                    inputCategoryField.setValueState(ValueState.Error);
+                    inputCategoryField.setValueStateText("Kategorie wählen!");
+                    var bCheckCategory = false;
+				} else {
+                    var inputCategoryField = this._getControl("comboCategory");
+                    this._clearValueStates(inputCategoryField);
+                    var bCheckCategory = true;
+                }
+
+                if (!bCheckTitle || !bCheckDescription || !bCheckCategory ) {
+                    return false;
+                }
+
+			} else if (this.iSelectedStepIndex === 1) {
+				var aOffers = oNewRequest.offers || [];
+				var oOffersTable = this._getControl("offersTable");
+				
+				if (aOffers.length === 0) {
+					MessageBox.error("Bitte fügen Sie mindestens ein Angebot hinzu.");
 					return false;
 				}
-			} else if (this.iSelectedStepIndex === 1) {
-				if (!oNewRequest.title || oNewRequest.title.trim() === "") {
-					MessageBox.error("Bitte geben Sie einen Titel ein.");
+				
+				var bAllDescriptionsValid = true;
+				var aTableItems = oOffersTable.getItems();
+				
+				for (var i = 0; i < aOffers.length; i++) {
+					var oOffer = aOffers[i];
+					var oItem = aTableItems[i];
+					
+					if (oItem) {
+						var oCells = oItem.getCells();
+						var oDescriptionInput = oCells[1];
+						
+						if (!oOffer.description || oOffer.description.trim() === "") {
+							oDescriptionInput.setValueState(ValueState.Error);
+							oDescriptionInput.setValueStateText("Beschreibung erforderlich!");
+							bAllDescriptionsValid = false;
+						} else {
+							oDescriptionInput.setValueState(ValueState.None);
+							oDescriptionInput.setValueStateText("");
+						}
+					}
+				}
+				
+				if (!bAllDescriptionsValid) {
+					MessageBox.error("Bitte geben Sie für alle Angebote eine Beschreibung an.");
 					return false;
 				}
 			}
@@ -252,6 +378,7 @@ sap.ui.define([
 						if (that.oWizardDialog) {
 							that.oWizardDialog.close();
 						}
+						that._resetValueStates();
 						if (that.oWizardModel) {
 							that.oWizardModel.setProperty("/newRequest", {
 								title: "",
@@ -299,6 +426,7 @@ sap.ui.define([
 						if (that.oWizardDialog) {
 							that.oWizardDialog.close();
 						}
+						that._resetValueStates();
 						if (that.oWizardModel) {
 							that.oWizardModel.setProperty("/newRequest", {
 								title: "",
@@ -345,12 +473,15 @@ sap.ui.define([
 			var oCurrentPosition = this.oWizardModel.getProperty("/currentPosition");
 			var aPositions = this.oWizardModel.getProperty("/currentOffer/positions") || [];
 			
-			// Validierung
 			if (!oCurrentPosition.description || oCurrentPosition.description.trim() === "") {
+                var oPositionDescriptionInput = this._getControl("inputOfferDescription");
+                oPositionDescriptionInput.setValueState(ValueState.Error);
 				MessageBox.error("Bitte geben Sie eine Positionsbeschreibung ein.");
 				return;
 			}
 			if (!oCurrentPosition.price || oCurrentPosition.price <= 0) {
+                var oPositionPriceInput = this._getControl("inputOfferPrice");
+                oPositionPriceInput.setValueState(ValueState.Error);
 				MessageBox.error("Bitte geben Sie einen gültigen Preis ein.");
 				return;
 			}
@@ -374,21 +505,17 @@ sap.ui.define([
 				price: null,
 				currency: "EUR"
 			});
-			
-			MessageBox.success("Position wurde hinzugefügt.");
 		},
 
 		onDeletePosition: function(oEvent) {
 			var oItem = oEvent.getSource().getParent();
-			var oTable = this._getControl("positionsTable");
+			var oTable = this._getControl("positionTable");
 			var iIndex = oTable.indexOfItem(oItem);
 			
 			if (iIndex > -1) {
 				var aPositions = this.oWizardModel.getProperty("/currentOffer/positions");
 				aPositions.splice(iIndex, 1);
 				this.oWizardModel.setProperty("/currentOffer/positions", aPositions);
-				
-				// Gesamtpreis neu berechnen
 				this._calculateOfferPrice();
 			}
 		},
@@ -408,7 +535,6 @@ sap.ui.define([
 			var oCurrentOffer = this.oWizardModel.getProperty("/currentOffer");
 			var aOffers = this.oWizardModel.getProperty("/newRequest/offers") || [];
 			
-			// Validierung - nur Positionen prüfen, Beschreibung ist optional
 			if (!oCurrentOffer.positions || oCurrentOffer.positions.length === 0) {
 				MessageBox.error("Bitte fügen Sie mindestens eine Position hinzu.");
 				return;
@@ -416,7 +542,7 @@ sap.ui.define([
 			
 			// Neues Angebot erstellen (mit deep copy der Positionen)
 			var oNewOffer = {
-				description: oCurrentOffer.description || "", // Kann leer sein
+				description: oCurrentOffer.description || "", 
 				price: oCurrentOffer.calculatedPrice,
 				currency: oCurrentOffer.currency || "EUR",
 				positions: JSON.parse(JSON.stringify(oCurrentOffer.positions)), // Deep copy
@@ -433,8 +559,6 @@ sap.ui.define([
 				calculatedPrice: 0,
 				currency: "EUR"
 			});
-			
-			MessageBox.success("Angebot wurde hinzugefügt.");
 		},
 
 		onDeleteOffer: function(oEvent) {
@@ -508,5 +632,6 @@ sap.ui.define([
 			
 			this._oPositionsPopover.openBy(oButton);
 		}
+
 	});
 });
