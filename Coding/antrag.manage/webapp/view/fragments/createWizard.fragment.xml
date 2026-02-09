@@ -183,7 +183,7 @@
 												groupName="favoriteOffer"
 												selected="{wizard>isFavorite}"
 												select="onSelectFavorite" />
-											<Input 
+											<Input id=""
 												value="{wizard>description}" 
 												placeholder="Beschreibung eingeben..." />
 											<Text

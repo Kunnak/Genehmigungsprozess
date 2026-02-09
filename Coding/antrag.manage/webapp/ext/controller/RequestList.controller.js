@@ -38,7 +38,7 @@ sap.ui.define([
 					that.oWizardDialog = oDialog;
 					that.base.getView().addDependent(that.oWizardDialog);
 					
-					// BOOKMARK - WizardModel
+					// BOOKMARK: WizardModel
 					that.oWizardModel = new JSONModel({
 						newRequest: {
 							title: "",
@@ -75,6 +75,7 @@ sap.ui.define([
 					
 					that.oWizardDialog.open();
 				});
+
 			} else {
 				if (this.oWizardModel) {
 					this.oWizardModel.setProperty("/newRequest", {
@@ -166,6 +167,7 @@ sap.ui.define([
 			}
 		},
 
+        // BOOKMARK: SelecitonChange Validierungen
 		onSelectionChange: function(oEvent) {
 			var oControl = oEvent.getSource();
 			var sValue = oControl.getValue();
@@ -265,6 +267,7 @@ sap.ui.define([
 			this._handleButtonsVisibility();
 		},
 
+        // BOOKMARK: NextStep Validierungen
 		_validateCurrentStep: function() {
 			var oNewRequest = this.oWizardModel.getProperty("/newRequest");
 			
@@ -406,6 +409,7 @@ sap.ui.define([
 			});
 		},
 
+        // Noch generiert w
 		handleWizardSubmit: function() {
 			var oNewRequest = this.oWizardModel.getProperty("/newRequest");
 			var that = this;
@@ -473,6 +477,7 @@ sap.ui.define([
 			var oCurrentPosition = this.oWizardModel.getProperty("/currentPosition");
 			var aPositions = this.oWizardModel.getProperty("/currentOffer/positions") || [];
 			
+            // Validation
 			if (!oCurrentPosition.description || oCurrentPosition.description.trim() === "") {
                 var oPositionDescriptionInput = this._getControl("inputOfferDescription");
                 oPositionDescriptionInput.setValueState(ValueState.Error);
@@ -486,7 +491,6 @@ sap.ui.define([
 				return;
 			}
 			
-			// Neue Position erstellen
 			var oNewPosition = {
 				description: oCurrentPosition.description,
 				price: parseFloat(oCurrentPosition.price),
@@ -496,10 +500,8 @@ sap.ui.define([
 			aPositions.push(oNewPosition);
 			this.oWizardModel.setProperty("/currentOffer/positions", aPositions);
 			
-			// Gesamtpreis des Angebots neu berechnen
 			this._calculateOfferPrice();
 			
-			// Eingabefelder zurücksetzen
 			this.oWizardModel.setProperty("/currentPosition", {
 				description: "",
 				price: null,
@@ -540,7 +542,6 @@ sap.ui.define([
 				return;
 			}
 			
-			// Neues Angebot erstellen (mit deep copy der Positionen)
 			var oNewOffer = {
 				description: oCurrentOffer.description || "", 
 				price: oCurrentOffer.calculatedPrice,
