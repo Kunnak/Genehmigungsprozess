@@ -15,7 +15,9 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core"
 	xmlns:f="sap.f"
-	xmlns:form="sap.ui.layout.form">
+	xmlns:form="sap.ui.layout.form"
+	xmlns:macros="sap.fe.macros">
+
 	<Dialog
 		id="wizardDialog"
 		showHeader="false"
@@ -86,63 +88,39 @@
 								<VBox width="50%">
 
 								<!-- Input -->
-								<form:SimpleForm
-									editable="true"
-									width="100%"
-									layout="ResponsiveGridLayout">
-									<Label class="sapUiSmallMarginBottom" text="Beschreibung"
-										required="true" />
-									<TextArea
-										id="inputOfferDescription"
-                                        change="onSelectionChange"
-										value="{wizard>/currentPosition/description}"
-										rows="3"/>
-
-									<Label text="Preis" required="true" />
-									<Input id="inputOfferPrice"
-                                        change="onSelectionChange"
-										value="{
-                                            parts: ['wizard>/currentPosition/price'],
-                                            type: 'Number' }" />
-									<Input id="inputOfferCurrencyCode" enabled="false"
-										value="{
-                                            parts: ['wizard>/currentPosition/currency'] }" />
-								</form:SimpleForm>
+								<!-- <form:SimpleForm -->
+								<!-- 	editable="true" -->
+								<!-- 	width="100%" -->
+								<!-- 	layout="ResponsiveGridLayout"> -->
+								<!-- 	<Label class="sapUiSmallMarginBottom" text="Beschreibung" -->
+								<!-- 		required="true" /> -->
+								<!-- 	<TextArea -->
+								<!-- 		id="inputOfferDescription" -->
+								<!--                                 change="onSelectionChange" -->
+								<!-- 		value="{wizard>/currentPosition/description}" -->
+								<!-- 		rows="3"/> -->
+								<!---->
+								<!-- 	<Label text="Preis" required="true" /> -->
+								<!-- 	<Input id="inputOfferPrice" -->
+								<!--                                 change="onSelectionChange" -->
+								<!-- 		value="{ -->
+								<!--                                     parts: ['wizard>/currentPosition/price'], -->
+								<!--                                     type: 'Number' }" /> -->
+								<!-- 	<Input id="inputOfferCurrencyCode" enabled="false" -->
+								<!-- 		value="{ -->
+								<!--                                     parts: ['wizard>/currentPosition/currency'] }" /> -->
+								<!-- </form:SimpleForm> -->
 								</VBox>
 								<VBox width="50%">
 
-								<Table id="positionTable"
-									items="{wizard>/currentOffer/positions}"
-                                    headerText="Positionen"
-									class="sapUiSmallMarginTop">
-									<columns>
-										<Column>
-											<Text text="Beschreibung" />
-										</Column>
-										<Column width="10em">
-											<Text text="Preis" />
-										</Column>
-										<Column width="5em" />
-									</columns>
-									<items>
-										<ColumnListItem>
-											<cells>
-												<Text text="{wizard>description}" />
-												<Text
-													text="{
-                                                         parts: [
-                                                             {path: 'wizard>price'},
-                                                             {path: 'wizard>currency'}
-                                                         ],
-                                                         type: 'sap.ui.model.type.Currency',
-                                                         formatOptions: {showMeasure: true}
-                                                     }" />
-												<Button icon="sap-icon://delete" type="Transparent"
-													press="onDeletePosition" />
-											</cells>
-										</ColumnListItem>
-									</items>
-								</Table>
+								<macros:Table 
+									metaPath="@com.sap.vocabularies.UI.v1.LineItem"
+                                    contextPath="_Position"
+									headerVisible="true"
+									header="Positionen"
+									readOnly="false"
+									class="sapUiSmallMarginTop" />
+
 								</VBox>
 							</HBox>
 
@@ -156,55 +134,14 @@
                                     press="onAddOffer" />
 							</HBox>
 
-							<!-- Tabelle -->
-							<Table id="offersTable"
-								items="{wizard>/newRequest/offers}"
-                                headerText="Angebote"
-								class="sapUiSmallMarginTop">
-								<columns>
-									<Column width="5em">
-										<Text text="Favorit" />
-									</Column>
-									<Column>
-										<Text text="Beschreibung" />
-									</Column>
-									<Column>
-										<Text text="Preis" />
-									</Column>
-									<Column width="8em">
-										<Text text="Positionen" />
-									</Column>
-									<Column width="5em" />
-								</columns>
-								<items>
-									<ColumnListItem>
-										<cells>
-											<RadioButton
-												groupName="favoriteOffer"
-												selected="{wizard>isFavorite}"
-												select="onSelectFavorite" />
-											<Input id=""
-												value="{wizard>description}" 
-												placeholder="Beschreibung eingeben..." />
-											<Text
-												text="{
-                                             parts: [
-                                                 {path: 'wizard>price'},
-                                                 {path: 'wizard>currency'}
-                                             ],
-                                             type: 'sap.ui.model.type.Currency',
-                                             formatOptions: {showMeasure: true}
-                                         }" />
-											<Button 
-												text="{= ${wizard>positions}.length + ' Pos.'}" 
-												type="Emphasized"
-												press="onShowPositions" />
-											<Button icon="sap-icon://delete" type="Transparent"
-												press="onDeleteOffer" />
-										</cells>
-									</ColumnListItem>
-								</items>
-							</Table>
+							<macros:Table 
+                                metaPath="@com.sap.vocabularies.UI.v1.LineItem"
+                                contextPath="_Offer"
+								headerVisible="true"
+								header="Angebote"
+								readOnly="false"
+								class="sapUiSmallMarginTop" />
+
 					</WizardStep>
 
 					<!-- Step 3: Zusammenfassung -->

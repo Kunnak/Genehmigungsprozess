@@ -10,6 +10,7 @@ sap.ui.define([
 	'sap/m/MessageBox',
 	'sap/ui/core/Fragment',
 	'sap/ui/model/json/JSONModel',
+    'sap/ui/core/ValueState',
     'sap/ui/core/ValueState'
 ], function (ControllerExtension, MessageBox, Fragment, JSONModel, ValueState) {
 	'use strict';
