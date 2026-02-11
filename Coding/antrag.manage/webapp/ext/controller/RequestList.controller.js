@@ -168,7 +168,7 @@ sap.ui.define([
 			}
 		},
 
-        // BOOKMARK: SelecitonChange Validierungen
+        // BOOKMARK: SelectionChange Validations
 		onSelectionChange: function(oEvent) {
 			var oControl = oEvent.getSource();
 			var sValue = oControl.getValue();
@@ -410,7 +410,7 @@ sap.ui.define([
 			});
 		},
 
-        // Noch generiert w
+        // Noch generiert 
 		handleWizardSubmit: function() {
 			var oNewRequest = this.oWizardModel.getProperty("/newRequest");
 			var that = this;

@@ -114,10 +114,10 @@
 								<VBox width="50%">
 
 								<macros:Table 
-									metaPath="@com.sap.vocabularies.UI.v1.LineItem"
-                                    contextPath="_Position"
+                                    metaPath="/Requests/@com.sap.vocabularies.UI.v1.LineItem"
+                                    contextPath="_Offer"
 									headerVisible="true"
-									header="Positionen"
+									header="Angebote"
 									readOnly="false"
 									class="sapUiSmallMarginTop" />
 
@@ -136,9 +136,9 @@
 
 							<macros:Table 
                                 metaPath="@com.sap.vocabularies.UI.v1.LineItem"
-                                contextPath="_Offer"
+                                contextPath="_Position"
 								headerVisible="true"
-								header="Angebote"
+								header="Unterpunkte"
 								readOnly="false"
 								class="sapUiSmallMarginTop" />
 
