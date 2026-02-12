@@ -46,102 +46,84 @@
 					<WizardStep id="requestInformation"
 						title="Allgemeine Informationen"
 						validated="true">
-						<form:SimpleForm
-							editable="true"
-							layout="ResponsiveGridLayout">
-							<Label text="Betreff" required="true" />
-							<Input
-								id="inputTitle"
-                                value="{wizard>/newRequest/title}"
-                                change=".onSelectionChange"
-                                />
 
-							<Label text="Beschreibung" required="true" />
-							<TextArea
-								id="inputDescription"
-								value="{wizard>/newRequest/description}"
-                                change=".onSelectionChange"
-								rows="6" />
+                        <form:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout">
+                            <Label text="Betreff" required="true" />
+                            <Input
+                                id="inputTitle"
+                                value="{topic}"
+                                change=".onSelectionChange" />
 
-							<Label text="Kategorie" required="true" />
-							<ComboBox
-								id="comboCategory"
-								selectedKey="{wizard>/newRequest/category_id}"
+                            <Label text="Beschreibung" required="true" />
+                            <TextArea
+                                id="inputDescription"
+                                value="{request_description}"
                                 change=".onSelectionChange"
-								items="{
-                                path: '/Categories'
+                                rows="6" />
+
+                            <Label text="Kategorie" required="true" />
+                            <ComboBox
+                                id="comboCategory"
+                                selectedKey="{category_id}"
+                                change=".onSelectionChange"
+                                items="{
+                                    path: '/Categories'
                                 }">
-								<core:Item key="{CategoryID}" text="{Name}" />
-							</ComboBox>
-						</form:SimpleForm>
+                                <core:Item key="{CategoryID}" text="{Name}" />
+                            </ComboBox>
+                        </form:SimpleForm>
+
+
 					</WizardStep>
 
 					<!-- Step 2: Angebots Informationen -->
 					<WizardStep id="offerInformation"
 						validated="true"
 						title="Angebots Informationen">
-						<MessageStrip class="sapUiSmallMarginBottom"
-							text="Eingabe für ein oder mehrere Angebote"
-							showIcon="true" />
 
-							<HBox width="100%">
-								<VBox width="50%">
+                        <HBox>
 
-								<!-- Input -->
-								<!-- <form:SimpleForm -->
-								<!-- 	editable="true" -->
-								<!-- 	width="100%" -->
-								<!-- 	layout="ResponsiveGridLayout"> -->
-								<!-- 	<Label class="sapUiSmallMarginBottom" text="Beschreibung" -->
-								<!-- 		required="true" /> -->
-								<!-- 	<TextArea -->
-								<!-- 		id="inputOfferDescription" -->
-								<!--                                 change="onSelectionChange" -->
-								<!-- 		value="{wizard>/currentPosition/description}" -->
-								<!-- 		rows="3"/> -->
-								<!---->
-								<!-- 	<Label text="Preis" required="true" /> -->
-								<!-- 	<Input id="inputOfferPrice" -->
-								<!--                                 change="onSelectionChange" -->
-								<!-- 		value="{ -->
-								<!--                                     parts: ['wizard>/currentPosition/price'], -->
-								<!--                                     type: 'Number' }" /> -->
-								<!-- 	<Input id="inputOfferCurrencyCode" enabled="false" -->
-								<!-- 		value="{ -->
-								<!--                                     parts: ['wizard>/currentPosition/currency'] }" /> -->
-								<!-- </form:SimpleForm> -->
-								</VBox>
-								<VBox width="50%">
+                            <VBox width="45%">
 
-								<macros:Table 
-                                    metaPath="/Requests/@com.sap.vocabularies.UI.v1.LineItem"
-                                    contextPath="_Offer"
-									headerVisible="true"
-									header="Angebote"
-									readOnly="false"
-									class="sapUiSmallMarginTop" />
+                            <macros:Table 
+                                id="offerTable"
+                                metaPath="/Requests/_Offer/@com.sap.vocabularies.UI.v1.LineItem"
+                                contextPath="/Requests/"
+                                headerVisible="true"
+                                header="Angebote"
+                                readOnly="false"
+                                selectionMode="Single"
+                                selectionChange=".onOfferSelectionChange"
+                                class="sapUiSmallMarginRight" />
 
-								</VBox>
-							</HBox>
+                            </VBox>
 
-							<HBox justifyContent="End" class="sapUiSmallMarginTop">
-                                <Button id="addPositionButton"
-                                    text="Position hinzufügen"
-                                    type="Emphasized"
-                                    press="onAddPosition" />
-                                <Button text="Angebot übertragen"
-                                    type="Emphasized"
-                                    press="onAddOffer" />
-							</HBox>
+                            <VBox width="10%">
+                            </VBox>
 
-							<macros:Table 
-                                metaPath="@com.sap.vocabularies.UI.v1.LineItem"
-                                contextPath="_Position"
-								headerVisible="true"
-								header="Unterpunkte"
-								readOnly="false"
-								class="sapUiSmallMarginTop" />
+                            <VBox width="45%">
 
+                            <macros:Table 
+                                id="positionTable"
+                                metaPath="/Requests/_Offer/_Position/@com.sap.vocabularies.UI.v1.LineItem"
+                                contextPath="/Requests/_Offer/"
+                                headerVisible="true"
+                                header="Unterpunkte"
+                                readOnly="false"
+                                class="sapUiSmallMarginLeft" />
+
+                            </VBox>
+
+                        </HBox>
+
+                        <HBox justifyContent="End" class="sapUiSmallMarginTop">
+                            <Button id="addOfferButton"
+                                text="Angebot hinzufügen"
+                                type="Emphasized"
+                                press=".onAddOffer"/>
+                        </HBox>
 					</WizardStep>
 
 					<!-- Step 3: Zusammenfassung -->
