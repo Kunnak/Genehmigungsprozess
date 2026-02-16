@@ -35,6 +35,58 @@
             </Record>
         </Collection>
     </Annotation>
-</Annotations></Schema>
+</Annotations>
+
+<Annotations Target="SAP__self.Offers">
+    <Annotation Term="UI.LineItem">
+        <Collection>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Favorite"/>
+                <PropertyValue Property="Label" String="Favorit"/>
+            </Record>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="OfferNumber"/>
+                <PropertyValue Property="Label" String="Angebotsnummer"/>
+            </Record>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Description"/>
+                <PropertyValue Property="Label" String="Beschreibung"/>
+            </Record>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Price"/>
+                <PropertyValue Property="Label" String="Preis"/>
+            </Record>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="CurrencyCode"/>
+                <PropertyValue Property="Label" String="Währung"/>
+            </Record>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Status"/>
+                <PropertyValue Property="Label" String="Status"/>
+            </Record>
+        </Collection>
+    </Annotation>
+</Annotations>
+
+<Annotations Target="SAP__self.Position">
+    <Annotation Term="UI.LineItem">
+        <Collection>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Description"/>
+                <PropertyValue Property="Label" String="Beschreibung"/>
+            </Record>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="Price"/>
+                <PropertyValue Property="Label" String="Preis"/>
+            </Record>
+            <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="CurrencyCode"/>
+                <PropertyValue Property="Label" String="Währung"/>
+            </Record>
+        </Collection>
+    </Annotation>
+</Annotations>
+
+</Schema>
 </edmx:DataServices>
 </edmx:Edmx>

@@ -16,7 +16,8 @@
 	xmlns:core="sap.ui.core"
 	xmlns:f="sap.f"
 	xmlns:form="sap.ui.layout.form"
-	xmlns:macros="sap.fe.macros">
+    xmlns:macros="sap.fe.macros"
+    xmlns:macrosTable="sap.fe.macros.table">
 
 	<Dialog
 		id="wizardDialog"
@@ -53,20 +54,20 @@
                             <Label text="Betreff" required="true" />
                             <Input
                                 id="inputTitle"
-                                value="{topic}"
+                                value="{Betreff}"
                                 change=".onSelectionChange" />
 
                             <Label text="Beschreibung" required="true" />
                             <TextArea
                                 id="inputDescription"
-                                value="{request_description}"
+                                value="{RequestDescription}"
                                 change=".onSelectionChange"
                                 rows="6" />
 
                             <Label text="Kategorie" required="true" />
                             <ComboBox
                                 id="comboCategory"
-                                selectedKey="{category_id}"
+                                selectedKey="{CategoryID}"
                                 change=".onSelectionChange"
                                 items="{
                                     path: '/Categories'
@@ -93,9 +94,8 @@
                                 contextPath="/Requests/"
                                 headerVisible="true"
                                 header="Angebote"
+                                selectionMode="Multi"
                                 readOnly="false"
-                                selectionMode="Single"
-                                selectionChange=".onOfferSelectionChange"
                                 class="sapUiSmallMarginRight" />
 
                             </VBox>
@@ -105,24 +105,44 @@
 
                             <VBox width="45%">
 
+                            <!-- Problemkind -->
                             <macros:Table 
                                 id="positionTable"
                                 metaPath="/Requests/_Offer/_Position/@com.sap.vocabularies.UI.v1.LineItem"
-                                contextPath="/Requests/_Offer/"
                                 headerVisible="true"
                                 header="Unterpunkte"
                                 readOnly="false"
                                 class="sapUiSmallMarginLeft" />
 
+                                <!-- <macros:Table metaPath="/Requests/_Offer/_Position/@com.sap.vocabularies.UI.v1.LineItem"> -->
+                                <!--     <macros:massEdit> -->
+                                <!--         <macrosTable:MassEdit visibleFields="offer_position, price, currency_code, description"> -->
+                                <!--             <f:FormContainer> -->
+                                <!--                 <f:formElements> -->
+                                <!--                     <f:FormElement label="Custom Element"> -->
+                                <!--                         <Text text="HELP" /> -->
+                                <!--                     </f:FormElement> -->
+                                <!--                 </f:formElements> -->
+                                <!--             </f:FormContainer> -->
+                                <!--         </macrosTable:MassEdit> -->
+                                <!--     </macros:massEdit> -->
+                                <!-- </macros:Table> -->
                             </VBox>
 
                         </HBox>
 
                         <HBox justifyContent="End" class="sapUiSmallMarginTop">
+
                             <Button id="addOfferButton"
                                 text="Angebot hinzufügen"
                                 type="Emphasized"
                                 press=".onAddOffer"/>
+
+                            <Button id="addPositionButton"
+                                text="Position hinzufügen"
+                                type="Emphasized"
+                                press=".onAddPosition"/>
+
                         </HBox>
 					</WizardStep>
 

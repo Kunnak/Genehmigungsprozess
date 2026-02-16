@@ -25,19 +25,33 @@ sap.ui.define([
                 
 			}
 		},
+        // ---------------      BusinessLogik Anfang     ---------------
 
+        // BOOKMARK
 		openWizard: async function(oEvent) {
             const oExtensionAPI = this.base.getExtensionAPI();
 			const oModel = this.base.getView().getModel();
 
-			const oListBinding = oModel.bindList("/Requests");
-			const oContext = oListBinding.create({
-				topic: "",
-				request_description: "",
-				category_id: null,
-				request_status: 0
+			const oRequestListBinding = oModel.bindList("/Requests");
+			const oRequestContext = oRequestListBinding.create({
+				Betreff: "Test",
+				RequestDescription: "Test",
+				CategoryID: null,
+				RequestStatus: 0
 			});
-			await oContext.created();
+			await oRequestContext.created();
+            
+            // Testarea
+
+			const oOfferListBinding = oModel.bindList("_Offer", oRequestContext);
+			const oOfferContext = oOfferListBinding.create({});
+			await oOfferContext.created();
+
+			const oPositionListBinding = oModel.bindList("_Position", oOfferContext);
+			const oPositionContext = oPositionListBinding.create({});
+			await oPositionContext.created();
+
+            //
 
             this.oWizardDialog = await oExtensionAPI.loadFragment({
                 id: this.getView().getId(),
@@ -45,7 +59,7 @@ sap.ui.define([
                 controller: this
             });
 
-			this.oWizardDialog.setBindingContext(oContext);
+			this.oWizardDialog.setBindingContext(oRequestContext);
 
 			this.oWizardButtonModel = new JSONModel({
 				backButtonVisible: true,
@@ -66,9 +80,108 @@ sap.ui.define([
 			
         },
 
+        // BOOKMARK
+		onAddOffer: async function() {
+			const oContext = this.oWizardDialog.getBindingContext();
+			const oModel = oContext.getModel();
+
+			const oOfferListBinding = oModel.bindList("_Offer", oContext);
+			const oOfferContext = oOfferListBinding.create({});
+			await oOfferContext.created();
+
+			const oPositionBinding = oModel.bindList("_Position", oOfferContext);
+            const oPositionContext = oPositionBinding.create({});
+			await oPositionContext.created();
+
+            this.getView().byId("positionTable").setBindingContext(oOfferContext);
+
+            this.getView().byId("positionTable").refresh();
+            this.getView().byId("offerTable").refresh();
+		},
+
+        onAddPosition: async function() {
+		 	MessageBox.error("°՞(ᗒᗣᗕ)՞°");
+        },
+
+        // ---------------      BusinessLogik Ende       ---------------
+
 		_getControl: function(sId) {
 			return Fragment.byId(this.base.getView().getId(), sId);
 		},
+
+
+		onDialogNextButton: function() {
+			if (!this.oWizard) {
+				this.oWizard = this._getControl("createRequest");
+			}
+
+			this.iSelectedStepIndex = this.oWizard.getSteps().indexOf(this.oSelectedStep);
+			var oNextStep = this.oWizard.getSteps()[this.iSelectedStepIndex + 1];
+
+			if (this.oSelectedStep && !this.oSelectedStep.bLast) {
+				this.oWizard.goToStep(oNextStep, true);
+			} else {
+				this.oWizard.nextStep();
+			}
+
+			this.iSelectedStepIndex++;
+			this.oSelectedStep = oNextStep;
+
+			// this._handleButtonsVisibility();
+		},
+        
+
+		onDialogBackButton: function() {
+			if (!this.oWizard) {
+				this.oWizard = this._getControl("createRequest");
+			}
+
+			if (!this.oWizard) return;
+
+			this.iSelectedStepIndex = this.oWizard.getSteps().indexOf(this.oSelectedStep);
+			var oPreviousStep = this.oWizard.getSteps()[this.iSelectedStepIndex - 1];
+
+			if (this.oSelectedStep) {
+				this.oWizard.goToStep(oPreviousStep, true);
+			} else {
+				this.oWizard.previousStep();
+			}
+
+			this.iSelectedStepIndex--;
+			this.oSelectedStep = oPreviousStep;
+
+			this._handleButtonsVisibility();
+		},
+
+
+		handleWizardCancel: function() {
+			var that = this;
+			MessageBox.warning("Möchten Sie den Wizard wirklich abbrechen? Alle Eingaben gehen verloren.", {
+				actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+				onClose: function(oAction) {
+					if (oAction === MessageBox.Action.YES) {
+						const oContext = that.oWizardDialog.getBindingContext();
+						const oModel = oContext.getModel();
+
+						oModel.resetChanges();
+						oContext.delete();
+
+						if (that.oWizard) {
+							that.oWizard.discardProgress(that.oWizard.getSteps()[0]);
+						}
+						if (that.oWizardDialog) {
+							that.oWizardDialog.close();
+						}
+						that._resetValueStates();
+						that.oWizardButtonModel.setProperty("/selectedOffer", null);
+						that.iSelectedStepIndex = 0;
+						that.oSelectedStep = that.oWizard ? that.oWizard.getSteps()[0] : null;
+					}
+				}
+			});
+		},
+
+
 
 		// _handleButtonsVisibility: function() {
 		// 	if (!this.oWizardButtonModel) return;
@@ -119,7 +232,6 @@ sap.ui.define([
 		// 	}
 		// },
 		//
-		//       // BOOKMARK: SelectionChange Validations
 		// onSelectionChange: function(oEvent) {
 		// 	var oControl = oEvent.getSource();
 		// 	var sValue = oControl.getValue();
@@ -193,28 +305,7 @@ sap.ui.define([
 		// 	}
 		// },
 		//
-
-		onDialogNextButton: function() {
-			if (!this.oWizard) {
-				this.oWizard = this._getControl("createRequest");
-			}
-
-			this.iSelectedStepIndex = this.oWizard.getSteps().indexOf(this.oSelectedStep);
-			var oNextStep = this.oWizard.getSteps()[this.iSelectedStepIndex + 1];
-
-			if (this.oSelectedStep && !this.oSelectedStep.bLast) {
-				this.oWizard.goToStep(oNextStep, true);
-			} else {
-				this.oWizard.nextStep();
-			}
-
-			this.iSelectedStepIndex++;
-			this.oSelectedStep = oNextStep;
-
-			// this._handleButtonsVisibility();
-		},
 		//
-		//       // BOOKMARK: NextStep Validierungen
 		// _validateCurrentStep: function() {
 		// 	const oContext = this.oWizardDialog.getBindingContext();
 		// 	const oData = oContext.getObject();
@@ -258,57 +349,6 @@ sap.ui.define([
 		//
 		// 	return true;
 		// },
-
-		onDialogBackButton: function() {
-			if (!this.oWizard) {
-				this.oWizard = this._getControl("createRequest");
-			}
-
-			if (!this.oWizard) return;
-
-			this.iSelectedStepIndex = this.oWizard.getSteps().indexOf(this.oSelectedStep);
-			var oPreviousStep = this.oWizard.getSteps()[this.iSelectedStepIndex - 1];
-
-			if (this.oSelectedStep) {
-				this.oWizard.goToStep(oPreviousStep, true);
-			} else {
-				this.oWizard.previousStep();
-			}
-
-			this.iSelectedStepIndex--;
-			this.oSelectedStep = oPreviousStep;
-
-			this._handleButtonsVisibility();
-		},
-
-
-		handleWizardCancel: function() {
-			var that = this;
-			MessageBox.warning("Möchten Sie den Wizard wirklich abbrechen? Alle Eingaben gehen verloren.", {
-				actions: [MessageBox.Action.YES, MessageBox.Action.NO],
-				onClose: function(oAction) {
-					if (oAction === MessageBox.Action.YES) {
-						const oContext = that.oWizardDialog.getBindingContext();
-						const oModel = oContext.getModel();
-
-						// Lösche den Draft
-						oModel.resetChanges();
-						oContext.delete();
-
-						if (that.oWizard) {
-							that.oWizard.discardProgress(that.oWizard.getSteps()[0]);
-						}
-						if (that.oWizardDialog) {
-							that.oWizardDialog.close();
-						}
-						that._resetValueStates();
-						that.oWizardButtonModel.setProperty("/selectedOffer", null);
-						that.iSelectedStepIndex = 0;
-						that.oSelectedStep = that.oWizard ? that.oWizard.getSteps()[0] : null;
-					}
-				}
-			});
-		},
 
 		//
 		//       // Noch generiert 
@@ -407,44 +447,6 @@ sap.ui.define([
 		//
 		// 	this.oWizardButtonModel.setProperty("/currentOffer/calculatedPrice", fTotalPrice);
 		// },
-
-		onAddOffer: async function() {
-			const oContext = this.oWizardDialog.getBindingContext();
-			const oModel = oContext.getModel();
-
-			const oOfferListBinding = oModel.bindList("_Offer", oContext);
-			const oOfferContext = oOfferListBinding.create({});
-			await oOfferContext.created();
-
-            // BOOKMARK
-            this.getView().byId("offerTable").refresh();
-            // oOfferListBinding.refresh();
-
-            this.getView().byId("positionTable").setBindingContext(oOfferContext);
-		},
-
-		// onOfferSelectionChange: function(oEvent) {
-		// 	const oTable = oEvent.getSource();
-		// 	const aSelectedItems = oTable.getSelectedItems();
-		//
-		// 	if (aSelectedItems.length > 0) {
-		// 		const oSelectedItem = aSelectedItems[0];
-		// 		const oContext = oSelectedItem.getBindingContext();
-		// 		this.oWizardModel.setProperty("/selectedOffer", oContext);
-		//
-		// 		// Binde die positionTable an das ausgewählte Angebot
-		// 		const oPositionTable = this._getControl("positionTable");
-		// 		if (oPositionTable) {
-		// 			// Hole die innere Tabelle des Makros
-		// 			const oInnerTable = oPositionTable.getContent ? oPositionTable.getContent() : oPositionTable;
-		// 			if (oInnerTable && oInnerTable.setBindingContext) {
-		// 				oInnerTable.setBindingContext(oContext);
-		// 			}
-		// 		}
-		// 	} else {
-		// 		this.oWizardModel.setProperty("/selectedOffer", null);
-		// 	}
-		// }
 
 	});
 });

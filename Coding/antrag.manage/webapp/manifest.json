@@ -156,7 +156,7 @@
                       "press": ".extension.antragsmanagement.antrag.manage.ext.controller.RequestList.openWizard",
                       "enabled": true,
                       "requiresSelection": false,
-                      "text": "Anlegen"
+                      "text": "Wizard"
                     }
                   }
                 }
