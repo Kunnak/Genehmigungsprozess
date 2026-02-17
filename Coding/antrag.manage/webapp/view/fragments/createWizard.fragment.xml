@@ -94,7 +94,6 @@
                                 contextPath="/Requests/"
                                 headerVisible="true"
                                 header="Angebote"
-                                selectionMode="Multi"
                                 readOnly="false"
                                 class="sapUiSmallMarginRight" />
 
@@ -114,19 +113,6 @@
                                 readOnly="false"
                                 class="sapUiSmallMarginLeft" />
 
-                                <!-- <macros:Table metaPath="/Requests/_Offer/_Position/@com.sap.vocabularies.UI.v1.LineItem"> -->
-                                <!--     <macros:massEdit> -->
-                                <!--         <macrosTable:MassEdit visibleFields="offer_position, price, currency_code, description"> -->
-                                <!--             <f:FormContainer> -->
-                                <!--                 <f:formElements> -->
-                                <!--                     <f:FormElement label="Custom Element"> -->
-                                <!--                         <Text text="HELP" /> -->
-                                <!--                     </f:FormElement> -->
-                                <!--                 </f:formElements> -->
-                                <!--             </f:FormContainer> -->
-                                <!--         </macrosTable:MassEdit> -->
-                                <!--     </macros:massEdit> -->
-                                <!-- </macros:Table> -->
                             </VBox>
 
                         </HBox>

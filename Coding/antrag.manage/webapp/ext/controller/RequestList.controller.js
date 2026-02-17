@@ -44,22 +44,27 @@ sap.ui.define([
             // Testarea
 
 			const oOfferListBinding = oModel.bindList("_Offer", oRequestContext);
-			const oOfferContext = oOfferListBinding.create({});
+			const oOfferContext = oOfferListBinding.create({
+
+            });
 			await oOfferContext.created();
 
-			const oPositionListBinding = oModel.bindList("_Position", oOfferContext);
-			const oPositionContext = oPositionListBinding.create({});
-			await oPositionContext.created();
+			// const oPositionListBinding = oModel.bindList("_Position", oOfferContext);
+			// const oPositionContext = oPositionListBinding.create({
+			//
+			//          });
+			// await oPositionContext.created();
 
             //
 
+			// this.oWizardDialog.setBindingContext(oRequestContext);
+            this.getView().byId("positionTable").setBindingContext(oOfferContext);
+            
             this.oWizardDialog = await oExtensionAPI.loadFragment({
                 id: this.getView().getId(),
                 name: "antragsmanagement.antrag.manage.view.fragments.createWizard",
                 controller: this
             });
-
-			this.oWizardDialog.setBindingContext(oRequestContext);
 
 			this.oWizardButtonModel = new JSONModel({
 				backButtonVisible: true,
@@ -92,8 +97,6 @@ sap.ui.define([
 			const oPositionBinding = oModel.bindList("_Position", oOfferContext);
             const oPositionContext = oPositionBinding.create({});
 			await oPositionContext.created();
-
-            this.getView().byId("positionTable").setBindingContext(oOfferContext);
 
             this.getView().byId("positionTable").refresh();
             this.getView().byId("offerTable").refresh();
