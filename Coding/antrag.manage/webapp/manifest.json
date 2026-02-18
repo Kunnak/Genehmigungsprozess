@@ -62,8 +62,9 @@
         "sap.ui.unified": {},
         "sap.ui.layout": {},
         "sap.fe.templates": {},
-	    "sap.fe.macros": {},
-        "sap.f": {}
+        "sap.fe.macros": {},
+        "sap.f": {},
+        "sap.fe.core": {}
       }
     },
     "contentDensities": {
@@ -127,7 +128,14 @@
             "RequestsObjectPage",
             "OffersObjectPage"
           ]
-        }
+        },
+        {
+          "pattern": "wizard",
+          "name": "WizardPage",
+          "target": [
+            "WizardPage"
+          ]
+        } 
       ],
       "targets": {
         "RequestsList": {
@@ -149,7 +157,8 @@
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "tableSettings": {
-                    "type": "ResponsiveTable"
+                    "type": "ResponsiveTable",
+                    "enableMassEdit": false
                   },
                   "actions": {
                     "openWizard": {
@@ -193,11 +202,17 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Requests/_Offer"
+              "contextPath": "/Requests/_Offer",
+              "navigation": {}
             }
           },
           "controlAggregation": "endColumnPages",
           "contextPattern": "/Requests({key})/_Offer({key2})"
+        },
+        "WizardPage": {
+          "type": "View",
+          "name": "antragsmanagement.antrag.manage.view.WizardPage",
+          "id": "WizardPage"
         }
       }
     },

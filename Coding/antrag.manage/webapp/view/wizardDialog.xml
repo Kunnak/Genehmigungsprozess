@@ -1,20 +1,21 @@
-<!-- __        ___                  _                -->
-<!-- \ \      / (_)______ _ _ __ __| |               -->
-<!--  \ \ /\ / /| |_  / _` | '__/ _` |               -->
-<!--   \ V  V / | |/ / (_| | | | (_| |               -->
-<!--    \_/\_/  |_/___\__,_|_|  \__,_|               -->
-<!--  _____                                     _    -->
-<!-- |  ___| __ __ _  __ _ _ __ ___   ___ _ __ | |_  -->
-<!-- | |_ | '__/ _` |/ _` | '_ ` _ \ / _ \ '_ \| __| -->
-<!-- |  _|| | | (_| | (_| | | | | | |  __/ | | | |_  -->
-<!-- |_|  |_|  \__,_|\__, |_| |_| |_|\___|_| |_|\__| -->
-<!--                 |___/                           -->
+<!-- __        ___                  _  -->
+<!-- \ \      / (_)______ _ _ __ __| | -->
+<!--  \ \ /\ / /| |_  / _` | '__/ _` | -->
+<!--   \ V  V / | |/ / (_| | | | (_| | -->
+<!--    \_/\_/  |_/___\__,_|_|  \__,_| -->
+<!--    ____  _       _                -->
+<!--   |  _ \(_) __ _| | ___   __ _    -->
+<!--   | | | | |/ _` | |/ _ \ / _` |   -->
+<!--   | |_| | | (_| | | (_) | (_| |   -->
+<!--   |____/|_|\__,_|_|\___/ \__, |   -->
+<!--                          |___/    -->
 
-<core:FragmentDefinition
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:f="sap.f"
-	xmlns:form="sap.ui.layout.form"
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
     xmlns:macros="sap.fe.macros"
     xmlns:macrosTable="sap.fe.macros.table">
 
@@ -83,10 +84,9 @@
 						validated="true"
 						title="Angebots Informationen">
 
-
                         <HBox>
-
                             <VBox width="45%">
+
                                 <macros:Table 
                                     id="offerTable"
                                     metaPath="_Offer/@com.sap.vocabularies.UI.v1.LineItem"
@@ -95,15 +95,6 @@
                                     readOnly="false"
                                     class="sapUiSmallMarginRight" />
 
-                            <!-- <macros:Table  -->
-                            <!--     id="offerTable" -->
-                            <!--     metaPath="/Requests/_Offer/@com.sap.vocabularies.UI.v1.LineItem" -->
-                            <!--     contextPath="/Requests/" -->
-                            <!--     headerVisible="true" -->
-                            <!--     header="Angebote" -->
-                            <!--     readOnly="false" -->
-                            <!--     class="sapUiSmallMarginRight" /> -->
-
                             </VBox>
                             <VBox width="10%">
                             </VBox>
@@ -111,16 +102,15 @@
 
                             <!-- Problemkind --> 
 
-                            <!-- <macros:Table  -->
-                            <!--     id="positionTable" -->
-                            <!--     metaPath="/Requests/_Offer/_Position/@com.sap.vocabularies.UI.v1.LineItem" -->
-                            <!--     headerVisible="true" -->
-                            <!--     header="Unterpunkte" -->
-                            <!--     readOnly="false" -->
-                            <!--     class="sapUiSmallMarginLeft" /> -->
+                                <macros:Table 
+                                    id="positionTable"
+                                    metaPath="/Requests/_Offer/_Position/@com.sap.vocabularies.UI.v1.LineItem"
+                                    headerVisible="true"
+                                    header="Unterpunkte"
+                                    readOnly="false"
+                                    class="sapUiSmallMarginLeft" />
 
                             </VBox>
-
                         </HBox>
 
                         <HBox justifyContent="End" class="sapUiSmallMarginTop">
@@ -209,4 +199,5 @@
 			</f:footer>
 		</f:DynamicPage>
 	</Dialog>
-</core:FragmentDefinition>
+
+</mvc:View>
