@@ -97,13 +97,7 @@
       "css": []
     },
     "routing": {
-      "config": {
-        "flexibleColumnLayout": {
-          "defaultTwoColumnLayoutType": "TwoColumnsBeginExpanded",
-          "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
-        },
-        "routerClass": "sap.f.routing.Router"
-      },
+      "config": {},
       "routes": [
         {
           "pattern": ":?query:",
@@ -130,7 +124,7 @@
           ]
         },
         {
-          "pattern": "Requests({key})/wizardDialog:?query:",
+          "pattern": "WizardDialog/:?query:",
           "name": "WizardDialog",
           "target": [
             "RequestsList",
@@ -172,9 +166,7 @@
                 }
               }
             }
-          },
-          "controlAggregation": "beginColumnPages",
-          "contextPattern": ""
+          }
         },
         "RequestsObjectPage": {
           "type": "Component",
@@ -192,9 +184,7 @@
                 }
               }
             }
-          },
-          "controlAggregation": "midColumnPages",
-          "contextPattern": "/Requests({key})"
+          }
         },
         "OffersObjectPage": {
           "type": "Component",
@@ -206,14 +196,12 @@
               "contextPath": "/Requests/_Offer",
               "navigation": {}
             }
-          },
-          "controlAggregation": "endColumnPages",
-          "contextPattern": "/Requests({key})/_Offer({key2})"
+          }
         },
         "WizardDialog": {
-          "type": "Component",
+          "type": "View",
           "id": "WizardDialog",
-          "name": "sap.fe.core.fpm",
+          "name": "antragsmanagement.antrag.manage.view.wizardDialog",
           "options": {
             "settings": {
               "viewName": "antragsmanagement.antrag.manage.view.wizardDialog",
@@ -222,12 +210,6 @@
           }
         }
       }
-    },
-    "rootView": {
-      "viewName": "sap.fe.templates.RootContainer.view.Fcl",
-      "type": "XML",
-      "async": true,
-      "id": "appRootView"
     },
     "extends": {
       "extensions": {
