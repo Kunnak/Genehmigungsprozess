@@ -27,44 +27,53 @@ sap.ui.define([
 		},
 
         // BOOKMARK
-		openWizard: async function(oEvent) {
+        openWizard: async function(oEvent) {
             const oExtensionAPI = this.base.getExtensionAPI();
-			const oModel = this.base.getView().getModel();
+            const oRouting = oExtensionAPI.getRouting();
+            const oModel = this.base.getView().getModel();
 
-			const oRequestListBinding = oModel.bindList("/Requests");
-			const oRequestContext = oRequestListBinding.create({
-				Betreff: "Test",
-				RequestDescription: "Test",
-				CategoryID: null,
-				RequestStatus: 0
-			});
-			await oRequestContext.created();
+            const oRequestListBinding = oModel.bindList("/Requests");
+            const oRequestContext = oRequestListBinding.create({
+                Betreff: "Test",
+                RequestDescription: "Test",
+                CategoryID: null,
+                RequestStatus: 0
+            });
+            await oRequestContext.created();
+
+            const sRequestID = oRequestContext.getProperty("RequestID"); // const hinzugefügt!
             
-            this.oWizardDialog ??= await oExtensionAPI.loadFragment({
-                id: this.getView().getId(),
-                name: "antragsmanagement.antrag.manage.view.fragments.createWizard",
-                controller: this,
-                initialBindingContext: oRequestContext 
+            oRouting.navigateToRoute("WizardDialog", {
+                key: sRequestID
             });
 
-            this.oWizardDialog.getBindingContext(oRequestContext);
 
-			this.oWizardButtonModel = new JSONModel({
-				backButtonVisible: true,
-				nextButtonVisible: true,
-				nextButtonEnabled: true,
-				reviewButtonVisible: false,
-				finishButtonVisible: false,
-				selectedOffer: null
-			});
-
-			this.oWizardDialog.setModel(this.oWizardButtonModel, "wizardButtons");
-
-			this.oWizard = this._getControl("createRequest");
-			this.oSelectedStep = this.oWizard.getSteps()[0];
-			this.iSelectedStepIndex = 0;
-
-            this.oWizardDialog.open();
+            
+			//          this.oWizardDialog ??= await oExtensionAPI.loadFragment({
+			//              id: this.getView().getId(),
+			//              name: "antragsmanagement.antrag.manage.view.fragments.createWizard",
+			//              controller: this,
+			//              initialBindingContext: oRequestContext 
+			//          });
+			//
+			//          this.oWizardDialog.getBindingContext(oRequestContext);
+			//
+			// this.oWizardButtonModel = new JSONModel({
+			// 	backButtonVisible: true,
+			// 	nextButtonVisible: true,
+			// 	nextButtonEnabled: true,
+			// 	reviewButtonVisible: false,
+			// 	finishButtonVisible: false,
+			// 	selectedOffer: null
+			// });
+			//
+			// this.oWizardDialog.setModel(this.oWizardButtonModel, "wizardButtons");
+			//
+			// this.oWizard = this._getControl("createRequest");
+			// this.oSelectedStep = this.oWizard.getSteps()[0];
+			// this.iSelectedStepIndex = 0;
+			//
+			//          this.oWizardDialog.open();
 			
         },
 

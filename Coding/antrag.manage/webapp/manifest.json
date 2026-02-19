@@ -130,12 +130,13 @@
           ]
         },
         {
-          "pattern": "wizard",
-          "name": "WizardPage",
+          "pattern": "Requests({key})/wizardDialog:?query:",
+          "name": "WizardDialog",
           "target": [
-            "WizardPage"
+            "RequestsList",
+            "WizardDialog"
           ]
-        } 
+        }
       ],
       "targets": {
         "RequestsList": {
@@ -209,10 +210,16 @@
           "controlAggregation": "endColumnPages",
           "contextPattern": "/Requests({key})/_Offer({key2})"
         },
-        "WizardPage": {
-          "type": "View",
-          "name": "antragsmanagement.antrag.manage.view.WizardPage",
-          "id": "WizardPage"
+        "WizardDialog": {
+          "type": "Component",
+          "id": "WizardDialog",
+          "name": "sap.fe.core.fpm",
+          "options": {
+            "settings": {
+              "viewName": "antragsmanagement.antrag.manage.view.wizardDialog",
+              "contextPath": "/Requests"
+            }
+          }
         }
       }
     },
@@ -235,5 +242,8 @@
   "sap.fiori": {
     "registrationIds": [],
     "archeType": "transactional"
+  },
+  "sap.fe": {
+    "app": {}
   }
 }
