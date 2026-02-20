@@ -20,21 +20,7 @@ sap.ui.define([
         openWizard: async function(oEvent) {
             const oExtensionAPI = this.base.getExtensionAPI();
             const oRouting = oExtensionAPI.getRouting();
-            // const oModel = this.base.getView().getModel();
-
-            // const oRequestListBinding = oModel.bindList("/Requests");
-            // const oRequestContext = oRequestListBinding.create({
-            //     Betreff: "Test",
-            //     RequestDescription: "Test",
-            //     CategoryID: null,
-            //     RequestStatus: 0
-            // });
-            // await oRequestContext.created();
-
-            // const sRequestID = oRequestContext.getProperty("RequestID");
-            
             oRouting.navigateToRoute("WizardDialog", {
-                // key: sRequestID
             });
         },
 	});

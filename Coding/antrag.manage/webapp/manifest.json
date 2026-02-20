@@ -127,7 +127,6 @@
           "pattern": "WizardDialog/:?query:",
           "name": "WizardDialog",
           "target": [
-            "RequestsList",
             "WizardDialog"
           ]
         }
