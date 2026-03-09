@@ -13,23 +13,24 @@ sap.ui.define([
     return Controller.extend("antragsmanagement.antrag.manage.controller.wizardDialog", {
 
         onInit: function() {
-            // const oRouter = this.getOwnerComponent().getRouter();
-            // oRouter.getRoute("WizardDialog").attachPatternMatched(this.onRouteMatched, this);
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.getRoute("WizardDialog").attachPatternMatched(this.onRouteMatched, this);
         },
 
-        onRouteMatched: function() {
-            // this._createRequest();
+        onRouteMatched: function(oEvent) {
+            var sKey =  oEvent.getParameter("arguments").RequestID;
+            this.getView().bindElement({
+                path: "/Requests(" + sKey + ")"
+            })
         },
 
         onButtonPress: async function() {
-            await this._createRequest();
-            const sNewRequestID = this.getView().getBindingContext().getProperty("RequestID");
-            const sNewRequestBetreff = this.getView().getBindingContext().getProperty("Betreff");
-            const sNewRequestBeschreibung = this.getView().getBindingContext().getProperty("RequestDescription");
+            var oContext = this.getView().getBindingContext();
+            var sRequestID = oContext.getProperty("RequestID");
+            var sBetreff = oContext.getProperty("Betreff");
 
-            MessageBox.show(sNewRequestID);
-            MessageBox.show(sNewRequestBetreff);
-            MessageBox.show(sNewRequestBeschreibung);
+            console.log("RequestID = ", sRequestID);
+            console.log("Betreff = ", sBetreff);
         },
 
         _createRequest: async function() {

@@ -124,7 +124,7 @@
           ]
         },
         {
-          "pattern": "WizardDialog/:?query:",
+          "pattern": "WizardDialog/Requests({key}):?query:",
           "name": "WizardDialog",
           "target": [
             "WizardDialog"

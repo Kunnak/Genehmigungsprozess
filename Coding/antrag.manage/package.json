@@ -12,7 +12,7 @@
     "@sap-ux/ui5-middleware-fe-mockserver": "2",
     "@sap/ux-specification": "^1.136.14",
     "@sap/ux-ui5-tooling": "1",
-    "@ui5/cli": "^4.0.43"
+    "@ui5/cli": "^4.0.47"
   },
   "scripts": {
     "start": "ui5 serve -o index.html?sap-ui-theme=sap_horizon_dark",

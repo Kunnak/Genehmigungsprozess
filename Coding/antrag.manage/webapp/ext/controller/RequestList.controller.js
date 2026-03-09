@@ -16,11 +16,28 @@ sap.ui.define([
 			}
 		},
 
+        _createRequest: async function() {
+            const oModel = this.getView().getModel();
+
+            const oRequestListBinding = oModel.bindList("/Requests");
+            const oRequestContext = oRequestListBinding.create({
+                Betreff: "Test Betreff",
+                RequestDescription: "Test Beschreibung",
+                CategoryID: null,
+                RequestStatus: 0
+            });
+            await oRequestContext.created();
+            this.getView().setBindingContext(oRequestContext);
+        },
+
         // BOOKMARK
-        openWizard: async function(oEvent) {
+        openWizard: async function() {
+            await this._createRequest();
+            const sNewRequestID = this.getView().getBindingContext().getProperty("RequestID");
             const oExtensionAPI = this.base.getExtensionAPI();
             const oRouting = oExtensionAPI.getRouting();
             oRouting.navigateToRoute("WizardDialog", {
+                key: sNewRequestID
             });
         },
 	});
