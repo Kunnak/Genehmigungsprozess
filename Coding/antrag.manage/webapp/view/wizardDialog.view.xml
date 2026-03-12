@@ -20,6 +20,10 @@
             <HBox>
                 <VBox>
                     <Button id="testButton" press="onButtonPress" text="Hier Drücken" />
+                    <Input value="{RequestID}"/>
+                    <Input value="{RequestNumber}"/>
+                    <Input value="{Betreff}"/>
+                    <Input value="{RequestDescription}"/>
                 </VBox>
             </HBox>
         </content>
