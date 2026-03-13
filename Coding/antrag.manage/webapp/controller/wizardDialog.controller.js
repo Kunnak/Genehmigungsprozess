@@ -21,37 +21,31 @@ sap.ui.define([
             var sKey = oEvent.getParameter("arguments").key;
 
             this.getView().bindElement({
-                path: `/Requests(RequestID=${sKey},IsActiveEntity=false)`
+                path: `/Requests(RequestID=${sKey},IsActiveEntity=false)`,
+                events: {
+                    dataReceived: this._onDataReceived.bind(this)
+                }
             });
-
-            this.oRequestContext = this.getView().getBindingContext();
-
-            this._createOfferContext();
-            this._createPositionContext();
         },
 
-        onButtonPress: async function() {
-            var oRequestContext = this.getView().getBindingContext();
-
-            console.log("RequestID = ", oRequestContext.getProperty("RequestID"));
-            console.log("Betreff = ", oRequestContext.getProperty("Betreff"));
+        _onDataReceived: async function() {
+            const oRequestContext = this.getView().getBindingContext();
+            const oModel = this.getView().getModel();
+            if (!oRequestContext) return;
+            await this._createOfferContext(oModel, oRequestContext);
+            await this._createPositionContext(oModel);
         },
 
-        _createOfferContext: async function() {
-            var oOfferListBinding = this.oRequestContext.bindList("_Offer");
-            this.oOfferContext = oOfferListBinding.create({
-                //FELDER !!
-            });
-            await oOfferContext.created();
+        _createOfferContext: async function(oModel, oRequestContext) {
+            const oOfferListBinding = oModel.bindList("_Offer", oRequestContext);
+            this.oOfferContext = oOfferListBinding.create({});
+            await this.oOfferContext.created();
         },
 
-        _createPositionContext: async function() {
-            var oPositionListBinding = this.oOfferContext.bindList("_Position");
-            this.oPositionContext = oPositionListBinding.create({
-                // FELDER !!
-            });
-
-            await oPositionContext.created();
-        },
+        _createPositionContext: async function(oModel) {
+            const oPositionListBinding = oModel.bindList("_Position", this.oOfferContext);
+            this.oPositionContext = oPositionListBinding.create({});
+            await this.oPositionContext.created();
+        }
     });
 });

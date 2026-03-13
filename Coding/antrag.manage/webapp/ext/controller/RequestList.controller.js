@@ -21,7 +21,7 @@ sap.ui.define([
 
             const oRequestListBinding = oModel.bindList("/Requests");
             const oRequestContext = oRequestListBinding.create({
-                Betreff: "Test Betreff",
+                Betreff: `${Date.now()}`,
                 RequestDescription: "Test Beschreibung",
                 CategoryID: null,
                 RequestStatus: 0
