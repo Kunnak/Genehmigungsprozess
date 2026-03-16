@@ -19,7 +19,7 @@
         <pages>
             <Page id="wizardContentPage" showHeader="false">
                 <content>
-                    <Wizard id="createRequest"
+                    <Wizard id="createRequestWizard"
                         class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
                         showNextButton="false"
                         navigationChange="handleNavigationChange"
@@ -69,13 +69,13 @@
                             <HBox>
                                 <VBox width="45%">
 
-                                    <!-- <macros:Table --> 
-                                    <!--     id="offerTable" -->
-                                    <!--     metaPath="_Offer/@com.sap.vocabularies.UI.v1.LineItem" -->
-                                    <!--     headerVisible="true" -->
-                                    <!--     header="Angebote" -->
-                                    <!--     readOnly="false" -->
-                                    <!--     class="sapUiSmallMarginRight" /> -->
+                                    <macros:Table 
+                                        id="offerTable"
+                                        metaPath="_Offer/@com.sap.vocabularies.UI.v1.LineItem"
+                                        headerVisible="true"
+                                        header="Angebote"
+                                        readOnly="false"
+                                        class="sapUiSmallMarginRight" />
 
                                 </VBox>
                                 <VBox width="10%">
@@ -121,12 +121,12 @@
                                 layout="ResponsiveGridLayout">
                                 <form:content>
                                     <Label text="Titel" />
-                                    <Text id="summaryTitle" text="{wizard>/newRequest/title}" />
+                                    <Text id="summaryTitle" text="{wizardButtons>/newRequest/title}" />
                                     <Label text="Beschreibung" />
                                     <Text id="summaryDescription"
-                                        text="{wizard>/newRequest/description}" />
+                                        text="{wizardButtons>/newRequest/description}" />
                                     <Label text="Kategorie" />
-                                    <Text id="summaryCategory" text="{wizard>/newRequest/CategoryName}" />
+                                    <Text id="summaryCategory" text="{wizardButtons>/newRequest/CategoryName}" />
                                     <Link press="editStepOne" text="Bearbeiten" />
                                 </form:content>
                             </form:SimpleForm>
@@ -138,11 +138,11 @@
                                 <form:content>
                                     <Label text="Gewünschtes Lieferdatum" />
                                     <Text id="summaryDeliveryDate"
-                                        text="{wizard>/newRequest/requestedDeliveryDate}" />
+                                        text="{wizardButtons>/newRequest/requestedDeliveryDate}" />
                                     <Label text="Budget" />
-                                    <Text id="summaryBudget" text="{wizard>/newRequest/budget}" />
+                                    <Text id="summaryBudget" text="{wizardButtons>/newRequest/budget}" />
                                     <Label text="Bemerkungen" />
-                                    <Text id="summaryRemarks" text="{wizard>/newRequest/remarks}" />
+                                    <Text id="summaryRemarks" text="{wizardButtons>/newRequest/remarks}" />
                                     <Link press="editStepTwo" text="Bearbeiten" />
                                 </form:content>
                             </form:SimpleForm>
@@ -155,41 +155,25 @@
                         <ToolbarSpacer />
 
                         <Button text="Zurück" 
-                            visible="{wizardButtons>/backButtonVisible}"
+                            visible="{wizardButton>/backButtonVisible}"
                             press="onDialogBackButton" />
-
                         <Button text="Weiter" 
                             type="Emphasized" 
-                            enabled="{wizardButtons>/nextButtonEnabled}"
-                            visible="{wizardButtons>/nextButtonVisible}" 
-                            press="onDialogNextButton" />
-
+                            enabled="{wizardButton>/nextButtonEnabled}"
+                            visible="{wizardButton>/nextButtonVisible}" press="onDialogNextButton" />
                         <Button text="Prüfen" 
                             type="Emphasized" 
-                            visible="{wizardButtons>/reviewButtonVisible}"
+                            visible="{wizardButton>/reviewButtonVisible}"
                             press="onDialogNextButton" />
-
                         <Button text="Abschließen" 
                             type="Emphasized"
-                            visible="{wizardButtons>/finishButtonVisible}" 
+                            visible="{wizardButton>/finishButtonVisible}" 
                             press="handleWizardSubmit" />
                         <Button text="Abbrechen" 
                             type="Transparent" 
                             press="handleWizardCancel" />
 
                     </OverflowToolbar>
-                </footer>
-            </Page>
-            <Page id="wizardReviewPage" showHeader="false">
-                <content>
-                </content>
-                <footer>
-                    <Bar>
-                        <contentRight>
-                            <Button text="Submit" press="handleWizardSubmit"/>
-                            <Button text="Cancel" press="handleWizardCancel"/>
-                        </contentRight>
-                    </Bar>
                 </footer>
             </Page>
         </pages>
