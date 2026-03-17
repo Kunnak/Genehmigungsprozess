@@ -19,7 +19,7 @@
         <pages>
             <Page id="wizardContentPage" showHeader="false">
                 <content>
-                    <Wizard id="createRequest"
+                    <Wizard id="createRequestWizard"
                         class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
                         showNextButton="false"
                         navigationChange="handleNavigationChange"
@@ -27,7 +27,7 @@
 
                         <!-- Step 1: Allgemeine Informationen -->
                         <WizardStep id="requestInformation"
-                            title="Allgemeine Informationen"
+                            title="Angtragsinformationen"
                             validated="true">
 
                             <form:SimpleForm
@@ -50,10 +50,8 @@
                                 <ComboBox
                                     id="comboCategory"
                                     selectedKey="{CategoryID}"
-                                    change=".onSelectionChange"
-                                    items="{
-                                        path: '/Categories'
-                                    }">
+                                    change=".onCategorySelected"
+                                    items="{ path: '/Categories' }">
                                     <core:Item key="{CategoryID}" text="{Name}" />
                                 </ComboBox>
                             </form:SimpleForm>
@@ -64,7 +62,7 @@
                         <!-- Step 2: Angebots Informationen -->
                         <WizardStep id="offerInformation"
                             validated="true"
-                            title="Angebots Informationen">
+                            title="Zusatzinformationen">
 
                             <HBox>
                                 <VBox width="45%">
@@ -95,27 +93,62 @@
                                 </VBox>
                             </HBox>
 
-                            <HBox justifyContent="End" class="sapUiSmallMarginTop">
+                            <!-- <HBox justifyContent="End" class="sapUiSmallMarginTop"> -->
 
-                                <Button id="addOfferButton"
-                                    text="Angebot hinzufügen"
-                                    type="Emphasized"
-                                    press=".onAddOffer"/>
+                            <!--     <Button id="addOfferButton" -->
+                            <!--         text="Angebot hinzufügen" -->
+                            <!--         type="Emphasized" -->
+                            <!--         press=".onAddOffer"/> -->
 
-                                <Button id="addPositionButton"
-                                    text="Position hinzufügen"
-                                    type="Emphasized"
-                                    press=".onAddPosition"/>
+                            <!--     <Button id="addPositionButton" -->
+                            <!--         text="Position hinzufügen" -->
+                            <!--         type="Emphasized" -->
+                            <!--         press=".onAddPosition"/> -->
 
-                            </HBox>
+                            <!-- </HBox> -->
                         </WizardStep>
 
-                        <!-- Step 3: Zusammenfassung -->
+                        <!-- Step 3: Genehmiger wählen -->
+                        <WizardStep
+                            id="participantPage"
+                            validated="true"
+                            title="Genehmiger">
+
+                        </WizardStep>
+
+                        <!-- Step 4: Zusammenfassung -->
                         <WizardStep
                             id="reviewPage"
                             validated="true"
                             title="Zusammenfassung">
-                            
+
+                                <form:SimpleForm
+                                    title="Antragsinformationen"
+                                    editable="false"
+                                    layout="ResponsiveGridLayout">
+                                    <form:content>
+                                        <Label text="Betreff"/>
+                                        <Text id="idReviewBetreff" text="{Betreff}"/>
+                                        <Label text="Beschreibung"/>
+                                        <Text id="idReviewDescription" text="{RequestDescription}"/>
+                                        <Label text="Kategorie"/>
+                                        <Text id="idReviewCategory" text="{CategoryID}"/>
+                                    </form:content>
+
+								</form:SimpleForm>
+
+								<form:SimpleForm
+										title="Zusatzinformationen"
+										editable="false"
+										layout="ResponsiveGridLayout">
+								</form:SimpleForm>
+
+								<form:SimpleForm
+                                    title="Genehmiger"
+                                    editable="false"
+                                    layout="ResponsiveGridLayout">
+								</form:SimpleForm>
+
                         </WizardStep>
                     </Wizard>
 
@@ -125,41 +158,25 @@
                         <ToolbarSpacer />
 
                         <Button text="Zurück" 
-                            visible="{wizardButtons>/backButtonVisible}"
+                            visible="{wizardButton>/backButtonVisible}"
                             press="onDialogBackButton" />
 
                         <Button text="Weiter" 
                             type="Emphasized" 
-                            enabled="{wizardButtons>/nextButtonEnabled}"
-                            visible="{wizardButtons>/nextButtonVisible}" 
-                            press="onDialogNextButton" />
-
-                        <Button text="Prüfen" 
-                            type="Emphasized" 
-                            visible="{wizardButtons>/reviewButtonVisible}"
+                            enabled="{wizardButton>/nextButtonEnabled}"
+                            visible="{wizardButton>/nextButtonVisible}" 
                             press="onDialogNextButton" />
 
                         <Button text="Abschließen" 
                             type="Emphasized"
-                            visible="{wizardButtons>/finishButtonVisible}" 
+                            visible="{wizardButton>/finishButtonVisible}" 
                             press="handleWizardSubmit" />
+
                         <Button text="Abbrechen" 
                             type="Transparent" 
                             press="handleWizardCancel" />
 
                     </OverflowToolbar>
-                </footer>
-            </Page>
-            <Page id="wizardReviewPage" showHeader="false">
-                <content>
-                </content>
-                <footer>
-                    <Bar>
-                        <contentRight>
-                            <Button text="Submit" press="handleWizardSubmit"/>
-                            <Button text="Cancel" press="handleWizardCancel"/>
-                        </contentRight>
-                    </Bar>
                 </footer>
             </Page>
         </pages>
