@@ -97,13 +97,7 @@
       "css": []
     },
     "routing": {
-      "config": {
-        "flexibleColumnLayout": {
-          "defaultTwoColumnLayoutType": "TwoColumnsMidExpanded",
-          "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
-        },
-        "routerClass": "sap.f.routing.Router"
-      },
+      "config": {},
       "routes": [
         {
           "pattern": ":?query:",
@@ -131,7 +125,6 @@
           "pattern": "WizardDialog/Requests({key}):?query:",
           "name": "WizardDialog",
           "target": [
-            "RequestsList",
             "WizardDialog"
           ]
         }
@@ -170,9 +163,7 @@
                 }
               }
             }
-          },
-          "controlAggregation": "beginColumnPages",
-          "contextPattern": ""
+          }
         },
         "RequestsObjectPage": {
           "type": "Component",
@@ -190,9 +181,7 @@
                 }
               }
             }
-          },
-          "controlAggregation": "midColumnPages",
-          "contextPattern": "/Requests({key})"
+          }
         },
         "OffersObjectPage": {
           "type": "Component",
@@ -204,9 +193,7 @@
               "contextPath": "/Requests/_Offer",
               "navigation": {}
             }
-          },
-          "controlAggregation": "endColumnPages",
-          "contextPattern": "/Requests({key})/_Offer({key2})"
+          }
         },
         "WizardDialog": {
           "type": "View",
@@ -217,9 +204,7 @@
               "viewName": "antragsmanagement.antrag.manage.view.wizardDialog",
               "contextPath": "/Requests"
             }
-          },
-          "controlAggregation": "midColumnPages",
-          "contextPattern": "/Requests({key})"
+          }
         }
       }
     },
@@ -231,12 +216,6 @@
           }
         }
       }
-    },
-    "rootView": {
-      "viewName": "sap.fe.templates.RootContainer.view.Fcl",
-      "type": "XML",
-      "async": true,
-      "id": "appRootView"
     }
   },
   "sap.fiori": {
