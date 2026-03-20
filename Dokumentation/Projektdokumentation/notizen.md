@@ -12,4 +12,3 @@ Der MIBS-Virtualdesk bietet Mitarbeitern, dem Backoffice und dem Vorstand Apps, 
 Ziel des Projektes ist die Entwicklung einer webbasierten App für das interne Tool "Mibs-Virtualdesk", die es Mitarbeitern ermöglicht, Anträge für diverse Themen digital zu stellen und dem Management eine strukturiere Übersicht bereit stellen, worüber die Anträge genehmigt bzw. abgelehnt werden können.
 
 
->

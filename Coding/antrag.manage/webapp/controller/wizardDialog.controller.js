@@ -5,19 +5,22 @@
 //    \_/\_/  |_/___\__,_|_|  \__,_|  \____\___/|_| |_|\__|_|  \___/|_|_|\___|_|
 
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
+    "sap/fe/core/PageController",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
-], function(Controller, JSONModel ,MessageBox ) {
+], function(PageController, JSONModel ,MessageBox ) {
     "use strict";
 
-    return Controller.extend("antragsmanagement.antrag.manage.controller.wizardDialog", {
+    return PageController.extend("antragsmanagement.antrag.manage.controller.wizardDialog", {
 
         onInit: function() {
 
             // ─── Router ───
-            const oRouter = this.getOwnerComponent().getRouter();
-            oRouter.getRoute("WizardDialog").attachPatternMatched(this.onRouteMatched, this);
+            const oExtensionAPI = this.getExtensionAPI();
+            const oRouting = oExtensionAPI.getRouting();
+
+            // const oRouter = this.getOwnerComponent().getRouter();
+            // oRouter.getRoute("WizardDialog").attachPatternMatched(this.onRouteMatched, this);
 
             // ─── Varaiblen ───
             this.oWizard = this.byId("createRequestWizard");
@@ -43,8 +46,7 @@ sap.ui.define([
 
         },
 
-        onRouteMatched: function(oEvent) {
-
+        onBeforeNavigation: function(oEvent) {
             var sKey = oEvent.getParameter("arguments").key;
             this.getView().bindElement({
                 path: `/Requests(RequestID=${sKey},IsActiveEntity=false)`,
@@ -52,7 +54,20 @@ sap.ui.define([
                     dataReceived: this._onDataReceived.bind(this)
                 }
             });
+        },
 
+        override : {
+            routing: {
+                onBeforeNavigation: function(oEvent) {
+                    var sKey = oEvent.getParameter("arguments").key;
+                    this.getView().bindElement({
+                        path: `/Requests(RequestID=${sKey},IsActiveEntity=false)`,
+                        events: {
+                            dataReceived: this._onDataReceived.bind(this)
+                        }
+                    });
+                },
+            },
         },
 
         _onDataReceived: async function() {
@@ -118,13 +133,13 @@ sap.ui.define([
         },
 
         _handleNavigationToStep: function (iStepNumber) {
-			var fnAfterNavigate = function () {
-				this._wizard.goToStep(this._wizard.getSteps()[iStepNumber]);
-				this._oNavContainer.detachAfterNavigate(fnAfterNavigate);
-			}.bind(this);
+            var fnAfterNavigate = function () {
+                this._wizard.goToStep(this._wizard.getSteps()[iStepNumber]);
+                this._oNavContainer.detachAfterNavigate(fnAfterNavigate);
+            }.bind(this);
 
-			this._oNavContainer.attachAfterNavigate(fnAfterNavigate);
-			this.backToWizardContent();
+            this._oNavContainer.attachAfterNavigate(fnAfterNavigate);
+            this.backToWizardContent();
         },
 
         _handleButtonsVisibility: function() {
@@ -152,7 +167,7 @@ sap.ui.define([
                     this.oWizardButtons.setProperty("/reviewButtonVisible", false);
                     this.oWizardButtons.setProperty("/finishButtonVisible", false);
                     break;
-                    
+
                 case 4:
                     this.oWizardButtons.setProperty("/nextButtonVisible", false);
                     this.oWizardButtons.setProperty("/backButtonVisible", true);

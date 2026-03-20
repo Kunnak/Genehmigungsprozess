@@ -36,9 +36,7 @@ sap.ui.define([
             const sNewRequestID = this.getView().getBindingContext().getProperty("RequestID");
             const oExtensionAPI = this.base.getExtensionAPI();
             const oRouting = oExtensionAPI.getRouting();
-            oRouting.navigateToRoute("WizardDialog", {
-                key: sNewRequestID
-            });
+            oRouting.navigate(this.getView().getBindingContext());
         },
 	});
 });

@@ -1,184 +1,186 @@
-<!-- __        ___                  _   ____  _       _              -->
-<!-- \ \      / (_)______ _ _ __ __| | |  _ \(_) __ _| | ___   __ _  -->
-<!--  \ \ /\ / /| |_  / _` | '__/ _` | | | | | |/ _` | |/ _ \ / _` | -->
-<!--   \ V  V / | |/ / (_| | | | (_| | | |_| | | (_| | | (_) | (_| | -->
-<!--    \_/\_/  |_/___\__,_|_|  \__,_| |____/|_|\__,_|_|\___/ \__, | -->
-<!--                                                          |___/  -->
+<!-- <!-1- __        ___                  _   ____  _       _              -1-> -->
+<!-- <!-1- \ \      / (_)______ _ _ __ __| | |  _ \(_) __ _| | ___   __ _  -1-> -->
+<!-- <!-1-  \ \ /\ / /| |_  / _` | '__/ _` | | | | | |/ _` | |/ _ \ / _` | -1-> -->
+<!-- <!-1-   \ V  V / | |/ / (_| | | | (_| | | |_| | | (_| | | (_) | (_| | -1-> -->
+<!-- <!-1-    \_/\_/  |_/___\__,_|_|  \__,_| |____/|_|\__,_|_|\___/ \__, | -1-> -->
+<!-- <!-1-                                                          |___/  -1-> -->
 
-<mvc:View
-    controllerName="antragsmanagement.antrag.manage.controller.wizardDialog"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m"
-    xmlns:core="sap.ui.core"
-    xmlns:f="sap.f"
-    xmlns:form="sap.ui.layout.form"
-    xmlns:macros="sap.fe.macros"
-    xmlns:macrosTable="sap.fe.macros.table">
+<!-- <mvc:View -->
+<!--     controllerName="antragsmanagement.antrag.manage.controller.wizardDialog" -->
+<!--     xmlns:mvc="sap.ui.core.mvc" -->
+<!--     xmlns="sap.m" -->
+<!--     xmlns:core="sap.ui.core" -->
+<!--     xmlns:f="sap.f" -->
+<!--     xmlns:form="sap.ui.layout.form" -->
+<!--     xmlns:macros="sap.fe.macros" -->
+<!--     xmlns:macrosTable="sap.fe.macros.table"> -->
 
-    <NavContainer id="wizardNavContainer">
-        <pages>
-            <Page id="wizardContentPage" showHeader="false">
-                <content>
-                    <Wizard id="createRequestWizard"
-                        class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
-                        showNextButton="false"
-                        navigationChange="handleNavigationChange"
-                        renderMode="Page">
+<!--     <NavContainer id="wizardNavContainer"> -->
+<!--         <pages> -->
+<!--             <Page id="wizardContentPage" showHeader="false"> -->
+<!--                 <content> -->
+<!--                     <Wizard id="createRequestWizard" -->
+<!--                         class="sapUiResponsivePadding--header sapUiResponsivePadding--content" -->
+<!--                         showNextButton="false" -->
+<!--                         navigationChange="handleNavigationChange" -->
+<!--                         renderMode="Page"> -->
 
-                        <!-- Step 1: Allgemeine Informationen -->
-                        <WizardStep id="requestInformation"
-                            title="Angtragsinformationen"
-                            validated="true">
+<!--                         <!-1- Step 1: Allgemeine Informationen -1-> -->
+<!--                         <WizardStep id="requestInformation" -->
+<!--                             title="Angtragsinformationen" -->
+<!--                             validated="true"> -->
 
-                            <form:SimpleForm
-                                editable="true"
-                                layout="ResponsiveGridLayout">
-                                <Label text="Betreff" required="true" />
-                                <Input
-                                    id="inputTitle"
-                                    value="{Betreff}"
-                                    change=".onSelectionChange" />
+<!--                             <form:SimpleForm -->
+<!--                                 editable="true" -->
+<!--                                 layout="ResponsiveGridLayout"> -->
+<!--                                 <Label text="Betreff" required="true" /> -->
+<!--                                 <Input -->
+<!--                                     id="inputTitle" -->
+<!--                                     value="{Betreff}" -->
+<!--                                     change=".onSelectionChange" /> -->
 
-                                <Label text="Beschreibung" required="true" />
-                                <TextArea
-                                    id="inputDescription"
-                                    value="{RequestDescription}"
-                                    change=".onSelectionChange"
-                                    rows="6" />
+<!--                                 <Label text="Beschreibung" required="true" /> -->
+<!--                                 <TextArea -->
+<!--                                     id="inputDescription" -->
+<!--                                     value="{RequestDescription}" -->
+<!--                                     change=".onSelectionChange" -->
+<!--                                     rows="6" /> -->
 
-                                <Label text="Kategorie" required="true" />
-                                <ComboBox
-                                    id="comboCategory"
-                                    selectedKey="{CategoryID}"
-                                    change=".onCategorySelected"
-                                    items="{ path: '/Categories' }">
-                                    <core:Item key="{CategoryID}" text="{Name}" />
-                                </ComboBox>
-                            </form:SimpleForm>
+<!--                                 <Label text="Kategorie" required="true" /> -->
+<!--                                 <ComboBox -->
+<!--                                     id="comboCategory" -->
+<!--                                     selectedKey="{CategoryID}" -->
+<!--                                     change=".onCategorySelected" -->
+<!--                                     items="{ path: '/Categories' }"> -->
+<!--                                     <core:Item key="{CategoryID}" text="{Name}" /> -->
+<!--                                 </ComboBox> -->
+
+<!--                                 <macros:Table --> 
+<!--                                     id="offerTable" -->
+<!--                                     metaPath="@com.sap.vocabularies.UI.v1.LineItem" -->
+<!--                                     contextPath="/_Offer" -->
+<!--                                     headerVisible="true" -->
+<!--                                     header="Angebote" -->
+<!--                                     readOnly="false" -->
+<!--                                     class="sapUiSmallMarginRight" /> -->
+
+<!--                             </form:SimpleForm> -->
+
+<!--                         </WizardStep> -->
+
+<!--                         <!-1- Step 2: Angebots Informationen -1-> -->
+<!--                         <WizardStep id="offerInformation" -->
+<!--                             validated="true" -->
+<!--                             title="Zusatzinformationen"> -->
+
+<!--                             <HBox> -->
+<!--                                 <VBox width="45%"> -->
 
 
-                        </WizardStep>
+<!--                                 </VBox> -->
+<!--                                 <VBox width="10%"> -->
+<!--                                 </VBox> -->
+<!--                                 <VBox id="idPositionTable" width="45%"> -->
 
-                        <!-- Step 2: Angebots Informationen -->
-                        <WizardStep id="offerInformation"
-                            validated="true"
-                            title="Zusatzinformationen">
+<!--                                 <!-1- Problemkind -1-> --> 
 
-                            <HBox>
-                                <VBox width="45%">
+<!--                                     <!-1- <macros:Table -1-> --> 
+<!--                                     <!-1-     id="positionTable" -1-> -->
+<!--                                     <!-1-     metaPath="/Requests/_Offer/_Position/@com.sap.vocabularies.UI.v1.LineItem" -1-> -->
+<!--                                     <!-1-     headerVisible="true" -1-> -->
+<!--                                     <!-1-     header="Unterpunkte" -1-> -->
+<!--                                     <!-1-     readOnly="false" -1-> -->
+<!--                                     <!-1-     class="sapUiSmallMarginLeft" /> -1-> -->
 
-                                    <!-- <macros:Table --> 
-                                    <!--     id="offerTable" -->
-                                    <!--     metaPath="_Offer/@com.sap.vocabularies.UI.v1.LineItem" -->
-                                    <!--     headerVisible="true" -->
-                                    <!--     header="Angebote" -->
-                                    <!--     readOnly="false" -->
-                                    <!--     class="sapUiSmallMarginRight" /> -->
+<!--                                 </VBox> -->
+<!--                             </HBox> -->
 
-                                </VBox>
-                                <VBox width="10%">
-                                </VBox>
-                                <VBox id="idPositionTable" width="45%">
+<!--                             <!-1- <HBox justifyContent="End" class="sapUiSmallMarginTop"> -1-> -->
 
-                                <!-- Problemkind --> 
+<!--                             <!-1-     <Button id="addOfferButton" -1-> -->
+<!--                             <!-1-         text="Angebot hinzufügen" -1-> -->
+<!--                             <!-1-         type="Emphasized" -1-> -->
+<!--                             <!-1-         press=".onAddOffer"/> -1-> -->
 
-                                    <!-- <macros:Table --> 
-                                    <!--     id="positionTable" -->
-                                    <!--     metaPath="/Requests/_Offer/_Position/@com.sap.vocabularies.UI.v1.LineItem" -->
-                                    <!--     headerVisible="true" -->
-                                    <!--     header="Unterpunkte" -->
-                                    <!--     readOnly="false" -->
-                                    <!--     class="sapUiSmallMarginLeft" /> -->
+<!--                             <!-1-     <Button id="addPositionButton" -1-> -->
+<!--                             <!-1-         text="Position hinzufügen" -1-> -->
+<!--                             <!-1-         type="Emphasized" -1-> -->
+<!--                             <!-1-         press=".onAddPosition"/> -1-> -->
 
-                                </VBox>
-                            </HBox>
+<!--                             <!-1- </HBox> -1-> -->
+<!--                         </WizardStep> -->
 
-                            <!-- <HBox justifyContent="End" class="sapUiSmallMarginTop"> -->
+<!--                         <!-1- Step 3: Genehmiger wählen -1-> -->
+<!--                         <WizardStep -->
+<!--                             id="participantPage" -->
+<!--                             validated="true" -->
+<!--                             title="Genehmiger"> -->
 
-                            <!--     <Button id="addOfferButton" -->
-                            <!--         text="Angebot hinzufügen" -->
-                            <!--         type="Emphasized" -->
-                            <!--         press=".onAddOffer"/> -->
+<!--                         </WizardStep> -->
 
-                            <!--     <Button id="addPositionButton" -->
-                            <!--         text="Position hinzufügen" -->
-                            <!--         type="Emphasized" -->
-                            <!--         press=".onAddPosition"/> -->
+<!--                         <!-1- Step 4: Zusammenfassung -1-> -->
+<!--                         <WizardStep -->
+<!--                             id="reviewPage" -->
+<!--                             validated="true" -->
+<!--                             title="Zusammenfassung"> -->
 
-                            <!-- </HBox> -->
-                        </WizardStep>
+<!--                                 <form:SimpleForm -->
+<!--                                     title="Antragsinformationen" -->
+<!--                                     editable="false" -->
+<!--                                     layout="ResponsiveGridLayout"> -->
+<!--                                     <form:content> -->
+<!--                                         <Label text="Betreff"/> -->
+<!--                                         <Text id="idReviewBetreff" text="{Betreff}"/> -->
+<!--                                         <Label text="Beschreibung"/> -->
+<!--                                         <Text id="idReviewDescription" text="{RequestDescription}"/> -->
+<!--                                         <Label text="Kategorie"/> -->
+<!--                                         <Text id="idReviewCategory" text="{CategoryName}"/> -->
+<!--                                     </form:content> -->
 
-                        <!-- Step 3: Genehmiger wählen -->
-                        <WizardStep
-                            id="participantPage"
-                            validated="true"
-                            title="Genehmiger">
+<!-- 								</form:SimpleForm> -->
 
-                        </WizardStep>
+<!-- 								<form:SimpleForm -->
+<!-- 										title="Zusatzinformationen" -->
+<!-- 										editable="false" -->
+<!-- 										layout="ResponsiveGridLayout"> -->
+<!-- 								</form:SimpleForm> -->
 
-                        <!-- Step 4: Zusammenfassung -->
-                        <WizardStep
-                            id="reviewPage"
-                            validated="true"
-                            title="Zusammenfassung">
+<!-- 								<form:SimpleForm -->
+<!--                                     title="Genehmiger" -->
+<!--                                     editable="false" -->
+<!--                                     layout="ResponsiveGridLayout"> -->
+<!-- 								</form:SimpleForm> -->
 
-                                <form:SimpleForm
-                                    title="Antragsinformationen"
-                                    editable="false"
-                                    layout="ResponsiveGridLayout">
-                                    <form:content>
-                                        <Label text="Betreff"/>
-                                        <Text id="idReviewBetreff" text="{Betreff}"/>
-                                        <Label text="Beschreibung"/>
-                                        <Text id="idReviewDescription" text="{RequestDescription}"/>
-                                        <Label text="Kategorie"/>
-                                        <Text id="idReviewCategory" text="{CategoryName}"/>
-                                    </form:content>
+<!--                         </WizardStep> -->
+<!--                     </Wizard> -->
 
-								</form:SimpleForm>
+<!--                 </content> -->
+<!--                 <footer> -->
+<!--                     <OverflowToolbar> -->
+<!--                         <ToolbarSpacer /> -->
 
-								<form:SimpleForm
-										title="Zusatzinformationen"
-										editable="false"
-										layout="ResponsiveGridLayout">
-								</form:SimpleForm>
+<!--                         <Button text="Zurück" --> 
+<!--                             visible="{wizardButton>/backButtonVisible}" -->
+<!--                             press="onDialogBackButton" /> -->
 
-								<form:SimpleForm
-                                    title="Genehmiger"
-                                    editable="false"
-                                    layout="ResponsiveGridLayout">
-								</form:SimpleForm>
+<!--                         <Button text="Weiter" --> 
+<!--                             type="Emphasized" --> 
+<!--                             enabled="{wizardButton>/nextButtonEnabled}" -->
+<!--                             visible="{wizardButton>/nextButtonVisible}" --> 
+<!--                             press="onDialogNextButton" /> -->
 
-                        </WizardStep>
-                    </Wizard>
+<!--                         <Button text="Abschließen" --> 
+<!--                             type="Emphasized" -->
+<!--                             visible="{wizardButton>/finishButtonVisible}" --> 
+<!--                             press="handleWizardSubmit" /> -->
 
-                </content>
-                <footer>
-                    <OverflowToolbar>
-                        <ToolbarSpacer />
+<!--                         <Button text="Abbrechen" --> 
+<!--                             type="Transparent" --> 
+<!--                             press="handleWizardCancel" /> -->
 
-                        <Button text="Zurück" 
-                            visible="{wizardButton>/backButtonVisible}"
-                            press="onDialogBackButton" />
-
-                        <Button text="Weiter" 
-                            type="Emphasized" 
-                            enabled="{wizardButton>/nextButtonEnabled}"
-                            visible="{wizardButton>/nextButtonVisible}" 
-                            press="onDialogNextButton" />
-
-                        <Button text="Abschließen" 
-                            type="Emphasized"
-                            visible="{wizardButton>/finishButtonVisible}" 
-                            press="handleWizardSubmit" />
-
-                        <Button text="Abbrechen" 
-                            type="Transparent" 
-                            press="handleWizardCancel" />
-
-                    </OverflowToolbar>
-                </footer>
-            </Page>
-        </pages>
-    </NavContainer>
-</mvc:View>
+<!--                     </OverflowToolbar> -->
+<!--                 </footer> -->
+<!--             </Page> -->
+<!--         </pages> -->
+<!--     </NavContainer> -->
+<!-- </mvc:View> -->
