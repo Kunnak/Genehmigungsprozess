@@ -196,7 +196,7 @@
           }
         },
         "WizardDialog": {
-          "type": "View",
+          "type": "Component",
           "id": "WizardDialog",
           "name": "antragsmanagement.antrag.manage.view.wizardDialog",
           "options": {

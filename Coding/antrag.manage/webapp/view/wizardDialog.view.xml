@@ -132,7 +132,7 @@
                                         <Label text="Beschreibung"/>
                                         <Text id="idReviewDescription" text="{RequestDescription}"/>
                                         <Label text="Kategorie"/>
-                                        <Text id="idReviewCategory" text="{CategoryID}"/>
+                                        <Text id="idReviewCategory" text="{CategoryName}"/>
                                     </form:content>
 
 								</form:SimpleForm>
