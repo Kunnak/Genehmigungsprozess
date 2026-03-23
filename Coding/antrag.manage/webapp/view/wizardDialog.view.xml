@@ -38,18 +38,6 @@
                                     id="inputTitle"
                                     value="{Betreff}"
                                     change=".onSelectionChange" />
-                                <Input
-                                    id="inputTitle2"
-                                    value="{Betreff}"
-                                    change=".onSelectionChange" />
-                                <Input
-                                    id="inputTitle3"
-                                    value="{Betreff}"
-                                    change=".onSelectionChange" />
-                                <Input
-                                    id="inputTitle4"
-                                    value="{Betreff}"
-                                    change=".onSelectionChange" />
 
                                 <Label text="Beschreibung" required="true" />
                                 <TextArea
@@ -81,8 +69,7 @@
 
                                     <macros:Table 
                                         id="offerTable"
-                                        metaPath="@com.sap.vocabularies.UI.v1.LineItem"
-                                        contextPath="/_Offer"
+                                        metaPath="_Offer/@com.sap.vocabularies.UI.v1.LineItem"
                                         headerVisible="true"
                                         header="Angebote"
                                         readOnly="false"
@@ -93,14 +80,13 @@
                                 </VBox>
                                 <VBox id="idPositionTable" width="45%">
 
-
-                                    <macros:Table 
-                                        id="positionTable"
-                                        metaPath="/_Position/@com.sap.vocabularies.UI.v1.LineItem"
-                                        headerVisible="true"
-                                        header="Unterpunkte"
-                                        readOnly="false"
-                                        class="sapUiSmallMarginLeft" />
+                                    <!-- <macros:Table --> 
+                                    <!--     id="positionTable" -->
+                                    <!--     metaPath="_Position/@com.sap.vocabularies.UI.v1.LineItem" -->
+                                    <!--     headerVisible="true" -->
+                                    <!--     header="Unterpunkte" -->
+                                    <!--     readOnly="false" -->
+                                    <!--     class="sapUiSmallMarginLeft" /> -->
 
                                 </VBox>
                             </HBox>
@@ -126,14 +112,13 @@
                             validated="true"
                             title="Genehmiger">
 
-                            <macros:Table 
-                                id="offerTable"
-                                metaPath="@com.sap.vocabularies.UI.v1.LineItem"
-                                contextPath="/_Participants"
-                                headerVisible="true"
-                                header="Angebote"
-                                readOnly="false"
-                                class="sapUiSmallMarginRight" />
+                                <macros:Table 
+                                    id="participantTable"
+                                    metaPath="_Participant/@com.sap.vocabularies.UI.v1.LineItem"
+                                    headerVisible="true"
+                                    header="Genehmiger"
+                                    readOnly="false"
+                                    class="sapUiSmallMarginLeft" />
 
                     </WizardStep>
 
