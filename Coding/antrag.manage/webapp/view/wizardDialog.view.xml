@@ -38,6 +38,18 @@
                                     id="inputTitle"
                                     value="{Betreff}"
                                     change=".onSelectionChange" />
+                                <Input
+                                    id="inputTitle2"
+                                    value="{Betreff}"
+                                    change=".onSelectionChange" />
+                                <Input
+                                    id="inputTitle3"
+                                    value="{Betreff}"
+                                    change=".onSelectionChange" />
+                                <Input
+                                    id="inputTitle4"
+                                    value="{Betreff}"
+                                    change=".onSelectionChange" />
 
                                 <Label text="Beschreibung" required="true" />
                                 <TextArea
