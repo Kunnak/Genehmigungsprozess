@@ -67,13 +67,13 @@
                             <HBox>
                                 <VBox width="45%">
 
-                                    <!-- <macros:Table --> 
-                                    <!--     id="offerTable" -->
-                                    <!--     metaPath="_Offer/@com.sap.vocabularies.UI.v1.LineItem" -->
-                                    <!--     headerVisible="true" -->
-                                    <!--     header="Angebote" -->
-                                    <!--     readOnly="false" -->
-                                    <!--     class="sapUiSmallMarginRight" /> -->
+                                    <macros:Table 
+                                        id="offerTable"
+                                        metaPath="_Offer/@com.sap.vocabularies.UI.v1.LineItem"
+                                        headerVisible="true"
+                                        header="Angebote"
+                                        readOnly="false"
+                                        class="sapUiSmallMarginRight" />
 
                                 </VBox>
                                 <VBox width="10%">
@@ -132,7 +132,7 @@
                                         <Label text="Beschreibung"/>
                                         <Text id="idReviewDescription" text="{RequestDescription}"/>
                                         <Label text="Kategorie"/>
-                                        <Text id="idReviewCategory" text="{CategoryID}"/>
+                                        <Text id="idReviewCategory" text="{CategoryName}"/>
                                     </form:content>
 
 								</form:SimpleForm>
